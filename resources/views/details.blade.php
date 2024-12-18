@@ -120,21 +120,22 @@
             </div>
             <div class="pay-period">
                 <h2>BULLETIN DE SALAIRE</h2>
-                <p><strong>Période :</strong> Décembre 2024</p>
-                <p><strong>Paiement :</strong> 31/12/2024</p>
+                <p><strong>Mois :</strong>{{$wageslip->periode_de_paie}} </p>
+                <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}  </p>
+                <p><strong>Paiement :</strong> {{$wageslip->date_de_paie}}</p>
             </div>
         </header>
 
         <section class="employee-details">
             <div>
-                <p><strong>Nom :</strong> Mr Abdoul Mamande</p>
-                <p><strong>Adresse :</strong> Village de la Francophonie</p>
-                <p><strong>Emploi :</strong> Ingenieur BTP</p>
+                <p><strong>Nom :</strong> {{$wageslip->nom_employee}} </p>
+                <p><strong>Adresse :</strong> {{$wageslip->add_employee}}</p>
+                <p><strong>Emploi :</strong> {{$wageslip->emploi}} </p>
             </div>
             <div>
-                <p><strong>Matricule :</strong> 19</p>
-                <p><strong>Entrée :</strong> 21/10/2015</p>
-                <p><strong>Telephone :</strong> +227 88333412</p>
+                <p><strong>Matricule :</strong> {{$wageslip->matricule}}</p>
+                <p><strong>Entrée :</strong>{{$wageslip->date_de_paie}} </p>
+                <p><strong>Telephone :</strong>{{$wageslip->empl_phone}} </p>
             </div>
         </section>
 
@@ -152,28 +153,28 @@
                 <tbody>
                     <tr>
                         <td class="rubrique">SALAIRE DE BASE</td>
-                        <td>151.67</td>
+                        <td>{{$wageslip->salaire_de_base}}</td>
                         <td>10.4000</td>
                         <td>1577.37</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Heures supplémentaires 25%</td>
-                        <td>21.50</td>
+                        <td>{{$wageslip->heures_supplementaires}}</td>
                         <td>13.0000</td>
                         <td>279.50</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Prime de Salissure</td>
-                        <td>2.10</td>
+                        <td>{{$wageslip->prime_de_salissure}}</td>
                         <td>15.6000</td>
                         <td>15.60</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Prime Annuelle</td>
-                        <td>2.10</td>
+                        <td>{{$wageslip->prime_annuelle}}</td>
                         <td>15.6000</td>
                         <td>15.60</td>
 
@@ -188,28 +189,28 @@
                     </tr>
                     <tr>
                         <td class="rubrique">Avance sur Salaire</td>
-                        <td>151.67</td>
+                        <td>{{$wageslip->avance_sur_salaire}}</td>
                         <td>10.4000</td>
                         <td>1577.37</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Maladie</td>
-                        <td>21.50</td>
+                        <td>{{$wageslip->assurance_maladie}}</td>
                         <td>13.0000</td>
                         <td>279.50</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Accident de Travail</td>
-                        <td>2.10</td>
+                        <td>{{$wageslip->assurance_accident_de_travail}}</td>
                         <td>15.6000</td>
                         <td>15.60</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Taxe</td>
-                        <td>2.10</td>
+                        <td>{{$wageslip->taxe}}</td>
                         <td>15.6000</td>
                         <td>15.60</td>
 
