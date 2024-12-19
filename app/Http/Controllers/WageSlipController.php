@@ -19,6 +19,7 @@ class WageSlipController extends Controller
     {
         try {
             ini_set('max_execution_time', 10000);
+
             $wageslipData = WageSlip::find($id); // Assuming you have an WageSlip model
             if (!$wageslipData) {
                 abort(404);

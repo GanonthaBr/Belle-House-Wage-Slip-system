@@ -6,6 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bulletin de Salaire</title>
 </head>
+<style>
+    .half-screen{
+        height: 50vh;
+    }
+    .card{
+        /* background: #cfcbcb57 */
+    }
+</style>
 <body>
     @yield('content')
 </body>
