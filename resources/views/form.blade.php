@@ -7,10 +7,10 @@
     </div>
     <div class="row">
         <div class="col-md-12 p-4">
-            <form action="" method="POST">
+            <form action="" method="POST" id="wageslip-form">
                 @csrf
                 <label for="matricule" class="form-label">Matricule:</label>
-                <input type="text" id="matricule" class="form-control" name="matricule" required><br>
+                <input type="text" id="matricule" class="form-control" name="matricule" required oninput="fetchEmployeeData()" ><br>
 
                 <label for="salaire_de_base" class="form-label">Salaire de Base:</label>
                 <input type="number" id="salaire_de_base" class="form-control" name="salaire_de_base" required><br>

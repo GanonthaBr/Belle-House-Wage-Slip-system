@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bulletin de Salaire</title>
-</head>
-<style>
-    .half-screen{
-        height: 50vh;
-    }
-    .card{
-        /* background: #cfcbcb57 */
-    }
-</style>
-<body>
-    @yield('content')
-
-    {{-- link js code code.js --}}
-    <script>
-
-    var url = "https://bellehouse.pythonanywhere.com/api/employees/";
+var url = "https://bellehouse.pythonanywhere.com/api/employees/";
 // filepath: /c:/Users/DELL/Desktop/work files/BelleHouse/bulletin-salaire/public/code.js
 
 async function fetchEmployeeData() {
@@ -65,11 +43,6 @@ async function fetchEmployeeData() {
         document.getElementById("anciennete").value = data.anciennete || "";
         document.getElementById("taxe").value = data.taxe || "";
     } catch (error) {
-        document.getElementById('wage-slip-form').reset();
-        // console.error("Error fetching employee data:", error);
+        console.error("Error fetching employee data:", error);
     }
 }
-    // 
-    </script>    
-</body>
-</html>
