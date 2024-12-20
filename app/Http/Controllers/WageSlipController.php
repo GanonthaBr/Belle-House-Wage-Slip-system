@@ -33,11 +33,11 @@ class WageSlipController extends Controller
             // Generate filename with employee name and date
             $employeeName = str_replace(' ', '_', $wageslipData->nom_employee);
             $date = \Carbon\Carbon::parse($wageslipData->date_de_paie)->format('Y_m_d');
-            $filename = "wageslip_{$employeeName}_{$date}.pdf";
+            $filename = "Bulletin_de_salaire_{$employeeName}_{$date}.pdf";
 
             return $pdf->download($filename);
         } catch (\Throwable $e) {
-            return redirect()->route('home')->with('error', $e);
+            return redirect()->route('home')->with('error', 'Une erreur est survenue lors du telechargement');
         }
     }
 

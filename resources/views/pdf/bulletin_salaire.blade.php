@@ -107,37 +107,80 @@
         }
     </style>
 </head>
+@php
+    // Arithmetic operations
 
+    // EXTRA HOURS
+    $rate_extra_hours = 0.05 * $wageslip->salaire_de_base;
+    $extra_hours = $rate_extra_hours * $wageslip->heures_supplementaires;
+
+    // TOTAL
+    $total = $wageslip->salaire_de_base + $extra_hours + $wageslip->prime_de_salissure + $wageslip->prime_annuelle;
+
+    // TAX
+    $tax_rate = $wageslip->taxe / 100;
+    $tax = $wageslip->taxe / 100 * $total;
+
+    // NET IMPOSABLE
+    $net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
+
+    // NET PAY
+    $net_pay = $total - $net_imposable;
+    
+
+@endphp
 <body>
     <div class="salary-slip">
         <header>
-            <div class="company-details">
-                <h2>BELLE HOUSE</h2>
-                <p>Entreprise de Construction Moderne</p>
-                <p>Niamey - Niger</p>
-                <p>Quuartier Koubie</p>
-                <p>NIF: 80903771800022 | RCCM: RCCM-NE-NIM-01-2017-A10-02845</p>
-            </div>
-            <div class="pay-period">
-                <h2>BULLETIN DE SALAIRE</h2>
-                <p><strong>Période :</strong> Décembre 2024</p>
-                <p><strong>Paiement :</strong> 31/12/2024</p>
-            </div>
+            <table style="width: 100%; border: none;">
+                <tr>
+                    <td style="width: 50%; vertical-align: top; text-align: left; border: none;">
+                        <div class="company-details">
+                            <h2>BELLE HOUSE</h2>
+                            <p>Entreprise de Construction Moderne</p>
+                            <p>Niamey - Niger</p>
+                            <p>Quuartier Koubie</p>
+                           
+                        </div>
+                    </td>
+                    <td style="width: 50%; vertical-align: top; text-align: right; border: none;">
+                        <div class="pay-period">
+                            <h2>   <br>  </h2>
+                            <p><strong>Mois :</strong>{{$wageslip->periode_de_paie}} </p>
+                            <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}  </p>
+                            <p><strong>Paiement :</strong> {{$wageslip->date_de_paie}}</p>
+                        </div>
+                    </td>
+                </tr>
+                {{-- <tr>
+                    <td style="width: 100%; vertical-align: top; text-align: left; border: none; font-size: 11px;">
+                        <p>NIF: 80903771800022 | RCCM: RCCM-NE-NIM-01-2017-A10-02845</p>
+                    </td>
+                </tr> --}}
+            </table>
         </header>
 
         <section class="employee-details">
-            <div>
-                <p><strong>Nom :</strong> Mr Abdoul Mamande</p>
-                <p><strong>Adresse :</strong> Village de la Francophonie</p>
-                <p><strong>Emploi :</strong> Ingenieur BTP</p>
-            </div>
-            <div>
-                <p><strong>Matricule :</strong> 19</p>
-                <p><strong>Entrée :</strong> 21/10/2015</p>
-                <p><strong>Telephone :</strong> +227 88333412</p>
-            </div>
+            <table style="width: 100%; border: none;">
+                <tr>
+                    <td style="width: 50%; vertical-align: top; text-align: left; border: none;">
+                        <div>
+                            <p><strong>Nom :</strong> {{$wageslip->nom_employee}} </p>
+                            <p><strong>Adresse :</strong> {{$wageslip->add_employee}}</p>
+                            <p><strong>Emploi :</strong> {{$wageslip->emploi}} </p>
+                        </div>
+                    </td>
+                    <td style="width: 50%; vertical-align: top; text-align: right; border: none;">
+                        <div>
+                            <p><strong>Matricule :</strong> {{$wageslip->matricule}}</p>
+                            <p><strong>Entrée :</strong>{{$wageslip->date_de_paie}} </p>
+                            <p><strong>Telephone :</strong>{{$wageslip->empl_phone}} </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </section>
-
+         <h2 style="text-align: center" >BULLETIN DE SALAIRE</h2>
         <section class="table-section">
             <table>
                 <thead>
@@ -152,30 +195,30 @@
                 <tbody>
                     <tr>
                         <td class="rubrique">SALAIRE DE BASE</td>
-                        <td>151.67</td>
-                        <td>10.4000</td>
-                        <td>1577.37</td>
+                        <td>{{$wageslip->salaire_de_base}}</td>
+                        <td>-</td>
+                        <td>{{$wageslip->salaire_de_base}}</td>
 
                     </tr>
                     <tr>
-                        <td class="rubrique">Heures supplémentaires 25%</td>
-                        <td>21.50</td>
-                        <td>13.0000</td>
-                        <td>279.50</td>
+                        <td class="rubrique">Heures supplémentaires 5%</td>
+                        <td>{{$wageslip->heures_supplementaires}}</td>
+                        <td> {{$rate_extra_hours}} </td>
+                        <td> {{$extra_hours}} </td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Prime de Salissure</td>
-                        <td>2.10</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td>{{$wageslip->prime_de_salissure}}</td>
+                        <td>-</td>
+                        <td>{{$wageslip->prime_de_salissure}}</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Prime Annuelle</td>
-                        <td>2.10</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td>{{$wageslip->prime_annuelle}}</td>
+                        <td>-</td>
+                        <td>{{$wageslip->prime_annuelle}}</td>
 
                     </tr>
 
@@ -183,42 +226,42 @@
                         <td class="rubrique">SALAIRE BRUT TOTAL</td>
                         <td>-</td>
                         <td>-</td>
-                        <td><strong>2124.10</strong></td>
+                        <td><strong> {{$total}} </strong></td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Avance sur Salaire</td>
-                        <td>151.67</td>
-                        <td>10.4000</td>
-                        <td>1577.37</td>
+                        <td>{{$wageslip->avance_sur_salaire}}</td>
+                        <td>-</td>
+                        <td>{{$wageslip->avance_sur_salaire}}</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Maladie</td>
-                        <td>21.50</td>
-                        <td>13.0000</td>
-                        <td>279.50</td>
+                        <td>{{$wageslip->assurance_maladie}}</td>
+                        <td>-</td>
+                        <td>{{$wageslip->assurance_maladie}}</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Accident de Travail</td>
-                        <td>2.10</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td>{{$wageslip->assurance_accident_de_travail}}</td>
+                        <td>-</td>
+                        <td>{{$wageslip->assurance_accident_de_travail}}</td>
 
                     </tr>
                     <tr>
-                        <td class="rubrique">Taxe</td>
-                        <td>2.10</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td class="rubrique">Taxe </td>
+                        <td>{{$wageslip->taxe}}%</td>
+                        <td>{{$tax_rate}}</td>
+                        <td>{{$tax}}</td>
 
                     </tr>
                     <tr class="break-point">
                         <td class="rubrique">NET IMPOSABLE</td>
                         <td>-</td>
                         <td>-</td>
-                        <td><strong>2124.10</strong></td>
+                        <td><strong> {{$net_imposable}} </strong></td>
 
                     </tr>
                 </tbody>
@@ -227,12 +270,12 @@
 
         <section class="summary">
             <div>
-                <p><strong>Total des Retenues :</strong> 1111.16</p>
-                <p><strong>Total des Cotisations Patronales :</strong> 627.59</p>
+                <p><strong>Total des Retenues :</strong> {{$total}} FCFA</p>
+                <p><strong>Total des Cotisations Patronales :</strong> {{$net_imposable}} FCFA</p>
             </div>
             <div class="net-pay">
                 <h3>NET À PAYER :</h3>
-                <h2>1562.65 FCFA</h2>
+                <h2> {{$net_pay}} FCFA</h2>
             </div>
         </section>
 
