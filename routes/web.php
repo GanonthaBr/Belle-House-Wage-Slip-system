@@ -12,3 +12,5 @@ Route::post('/store', [WageSlipController::class, 'store'])->name('store'); //ad
 Route::get('/wageslip/{id}', [WageSlipController::class, 'show'])->name('show'); //display
 Route::get('/edit/{id}', [WageSlipController::class, 'edit'])->name('edit'); //edit
 Route::put('/update/{id}', [WageSlipController::class, 'update'])->name('update'); //update
+Route::delete('/delete/{id}', [WageSlipController::class, 'destroy'])->name('delete'); //delete
+Route::get('/list/bulletin', [WageSlipController::class, 'list'])->name('list'); //list

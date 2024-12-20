@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-
-        return view('form');
+        $wageslips = WageSlip::all();
+        return view('home', ['wageslips' => $wageslips]);
     }
 }

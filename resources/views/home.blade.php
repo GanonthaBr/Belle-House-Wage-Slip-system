@@ -31,10 +31,20 @@
                                 Bulletin de Salaires
                             </h5>
                             <p class="card-text">
-                                content of the second card
-                                <a href="{{route('wageslip.downloadPDF',['id'=>$wageSlip->id])}}">downloadPDF</a> <br>
-                                <a href="{{route('create')}}">create</a>
+                                Creer un nouveau bulletin de salaire
+                                <a href="{{route('create')}}">ici</a>
                             </p>
+                            {{-- list last 3 wageslips --}}
+                            <ul class="list-group">
+                                @foreach ($wageslips as $wageslip)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{$wageslip->nom_employee}}
+                                        <a href="{{route('show',$wageslip->id)}}" class="btn btn-primary btn-sm">Voir</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            {{-- A button to go to the list of all items --}}
+                            <a href="{{route('list')}}" class="btn btn-primary">Voir tous les bulletins de salaire</a>
                         </div>
                     </div>
                 </div>

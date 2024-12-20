@@ -9,6 +9,11 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class WageSlipController extends Controller
 {
+    public function list()
+    {
+        $wageslips = WageSlip::all();
+        return view('list', ['wageslips' => $wageslips]);
+    }
     public function create()
     {
         return view('form');
@@ -137,7 +142,7 @@ class WageSlipController extends Controller
                 'anciennete' => request('anciennete'),
                 'taxe' => request('taxe'),
             ]);
-            return redirect()->route('show', ['id' => $wageslip->id]);
+            return redirect()->route('show', ['id' => $wageslip->id])->with('message', 'Ce bulletin a ete mis a jour avec succes!',);
         } catch (\Throwable $e) {
             return redirect()->route('home')->with('error', 'Une erreur est survenue',);
         }
@@ -162,13 +167,13 @@ class WageSlipController extends Controller
         return view('details', compact('wageslip'));
     }
     //delete
-    public function delete($id)
+    public function destroy($id)
     {
         $wageslip = WageSlip::find($id);
         if (!$wageslip) {
             abort(404);
         }
         $wageslip->delete();
-        return redirect()->route('home')->with('message', "L'élément a été supprimé avec succès");
+        return redirect()->route('list')->with('message', "L'élément a été supprimé avec succès");
     }
 }

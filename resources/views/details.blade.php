@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Bulletin de Salaire</title>
     <style>
         * {
@@ -79,27 +80,31 @@
             color: green;
         }
 
-        .salary-slip__actions{
+        .salary-slip__actions {
             width: 35%;
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        .salary-slip__actions a{
+
+        .salary-slip__actions a {
             text-decoration: none;
             color: #fff;
             background-color: #61a1d6;
             padding: 5px 10px;
             border-radius: 5px;
         }
-        .salary-slip__actions a:nth-last-of-type(1){
+
+        .salary-slip__actions a:nth-last-of-type(1) {
             background-color: #087c5f81;
 
         }
-        .salary-slip__actions a:nth-child(1){
+
+        .salary-slip__actions a:nth-child(1) {
             background-color: #f00;
         }
-        .salary-slip__actions a:hover{
+
+        .salary-slip__actions a:hover {
             background-color: #08c661;
         }
 
@@ -133,29 +138,35 @@
     </style>
 </head>
 @php
-    // Arithmetic operations
+// Arithmetic operations
 
-    // EXTRA HOURS
-    $rate_extra_hours = 0.05 * $wageslip->salaire_de_base;
-    $extra_hours = $rate_extra_hours * $wageslip->heures_supplementaires;
+// EXTRA HOURS
+$rate_extra_hours = 0.05 * $wageslip->salaire_de_base;
+$extra_hours = $rate_extra_hours * $wageslip->heures_supplementaires;
 
-    // TOTAL
-    $total = $wageslip->salaire_de_base + $extra_hours + $wageslip->prime_de_salissure + $wageslip->prime_annuelle;
+// TOTAL
+$total = $wageslip->salaire_de_base + $extra_hours + $wageslip->prime_de_salissure + $wageslip->prime_annuelle;
 
-    // TAX
-    $tax_rate = $wageslip->taxe / 100;
-    $tax = $wageslip->taxe / 100 * $total;
+// TAX
+$tax_rate = $wageslip->taxe / 100;
+$tax = $wageslip->taxe / 100 * $total;
 
-    // NET IMPOSABLE
-    $net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
+// NET IMPOSABLE
+$net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
 
-    // NET PAY
-    $net_pay = $total - $net_imposable;
-    
+// NET PAY
+$net_pay = $total - $net_imposable;
+
 
 @endphp
+
 <body>
     <div class="salary-slip">
+        @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+        @endif
         {{-- section with action buttons --}}
         <div class="salary-slip__header">
             <div class="salary-slip__actions">
@@ -176,9 +187,9 @@
             <div class="pay-period">
                 <h2>BULLETIN DE SALAIRE</h2>
                 <p><strong>Mois :</strong>{{$wageslip->periode_de_paie}} </p>
-                <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}  </p>
+                <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}} </p>
                 <p><strong>Paiement :</strong> {{$wageslip->date_de_paie}}</p>
-            </div>        
+            </div>
         </header>
 
         <section class="employee-details">
