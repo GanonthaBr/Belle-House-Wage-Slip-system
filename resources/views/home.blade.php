@@ -18,9 +18,11 @@
                             <h5 class="card-title">
                                 Gestion des Employees
                             </h5>
-                            <p class="card-text">
-                                content of the first card
-                            </p>
+                            {{-- list of employees. Just the html without the data, we will the data from js with external API call --}}
+                            <ul class="list-group employees">
+                                
+                            </ul>
+                            <a href="#" class="btn btn-primary">Voir tous les Employees</a>
                         </div>
                     </div>
                 </div>

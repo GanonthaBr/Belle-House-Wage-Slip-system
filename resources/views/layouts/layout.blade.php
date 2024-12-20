@@ -12,6 +12,8 @@
     .half-screen {
         height: 50vh;
     }
+
+    /* style for burger menu */
 </style>
 
 <body>
@@ -31,10 +33,10 @@
                         <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('create') }}">Creer un bulletin de salaire</a>
+                        <a class="nav-link" href="{{ route('create') }}">Creer Bulletin de salaire</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('list') }}">Liste des bulletins de salaire</a>
+                        <a class="nav-link" href="{{ route('list') }}">Liste Bulletins de salaire</a>
                     </li>
                 </ul>
             </div>
@@ -45,6 +47,7 @@
 
     {{-- link js code code.js --}}
     <script>
+        // Fetch employee data from the API
         var url = "https://bellehouse.pythonanywhere.com/api/employees/";
         // filepath: /c:/Users/DELL/Desktop/work files/BelleHouse/bulletin-salaire/public/code.js
 
@@ -96,7 +99,44 @@
                 // console.error("Error fetching employee data:", error);
             }
         }
-        // 
+        //nav bar burger menu
+        var nav = document.querySelector('nav');
+        var navToggle = document.querySelector('.navbar-toggler');
+        navToggle.addEventListener('click', function() {
+            if (nav.classList.contains('navbar-expand-lg')) {
+                nav.classList.remove('navbar-expand-lg');
+            } else {
+                nav.classList.add('navbar-expand-lg');
+            }
+        });
+
+        //Fetch list of employees from the API https://bellehouse.pythonanywhere.com/api/employees and display them in the list of employees in the home page
+        async function fetchEmployees() {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+                console.log(data);
+                const employees = document.querySelector(".employees");
+                employees.innerHTML = "";
+                data.forEach((employee) => {
+                    const li = document.createElement("li");
+                    li.className = "list-group-item d-flex justify-content-between align-items center";
+                    li.textContent = employee.first_name + " " + employee.last_name;
+                    const a = document.createElement("a");
+                    a.href = "#";
+                    a.className = "btn btn-primary btn-sm";
+                    a.textContent = "Voir";
+                    li.appendChild(a);
+                    employees.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error fetching employee data:", error);
+            }
+        }
+        fetchEmployees();
     </script>
 </body>
 
