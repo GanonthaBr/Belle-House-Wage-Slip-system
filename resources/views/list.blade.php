@@ -36,6 +36,7 @@
                                         <td class="salary-slip__actions">
                                             <a href="{{route('wageslip.downloadPDF',$wageslip->id)}}" class="btn btn-primary btn-sm">Telecharger</a>
                                             <a href="{{ route('edit', $wageslip->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                            <a href="{{ route('show', $wageslip->id) }}" class="btn btn-info btn-sm">Voir</a>
                                             <form action="{{ route('delete', $wageslip->id) }}" method="POST" style="display: inline-block;">
                                                 @method('DELETE')
                                                 @csrf
