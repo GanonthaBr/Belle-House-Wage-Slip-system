@@ -13,4 +13,8 @@ class HomeController extends Controller
         $wageslips = WageSlip::all();
         return view('home', ['wageslips' => $wageslips]);
     }
+    public function employees()
+    {
+        return view('employees');
+    }
 }

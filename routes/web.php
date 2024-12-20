@@ -14,3 +14,4 @@ Route::get('/edit/{id}', [WageSlipController::class, 'edit'])->name('edit'); //e
 Route::put('/update/{id}', [WageSlipController::class, 'update'])->name('update'); //update
 Route::delete('/delete/{id}', [WageSlipController::class, 'destroy'])->name('delete'); //delete
 Route::get('/list/bulletin', [WageSlipController::class, 'list'])->name('list'); //list
+Route::get('/employees/', [HomeController::class, 'employees'])->name('employees');

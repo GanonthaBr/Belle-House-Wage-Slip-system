@@ -64,7 +64,7 @@
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 document.getElementById("salaire_de_base").value =
                     data.base_salary || "";
                 document.getElementById("heures_supplementaires").value =
@@ -118,7 +118,7 @@
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
-                console.log(data);
+                // console.log(data);
                 const employees = document.querySelector(".employees");
                 employees.innerHTML = "";
                 data.forEach((employee) => {
@@ -126,10 +126,10 @@
                     li.className = "list-group-item d-flex justify-content-between align-items center";
                     li.textContent = employee.first_name + " " + employee.last_name;
                     const a = document.createElement("a");
-                    a.href = "#";
-                    a.className = "btn btn-primary btn-sm";
-                    a.textContent = "Voir";
-                    li.appendChild(a);
+                    // a.href = "#";
+                    // a.className = "btn btn-primary btn-sm";
+                    // a.textContent = "Voir";
+                    // li.appendChild(a);
                     employees.appendChild(li);
                 });
             } catch (error) {

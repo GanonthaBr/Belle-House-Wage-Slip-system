@@ -22,7 +22,7 @@
                             <ul class="list-group employees">
                                 
                             </ul>
-                            <a href="#" class="btn btn-primary">Voir tous les Employees</a>
+                            <a href="{{route('employees')}}" class="btn btn-primary m-4">Voir tous les Employees</a>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                                 @endforeach
                             </ul>
                             {{-- A button to go to the list of all items --}}
-                            <a href="{{route('list')}}" class="btn btn-primary">Voir tous les bulletins de salaire</a>
+                            <a href="{{route('list')}}" class="btn btn-primary m-4">Voir tous les bulletins de salaire</a>
                         </div>
                     </div>
                 </div>
