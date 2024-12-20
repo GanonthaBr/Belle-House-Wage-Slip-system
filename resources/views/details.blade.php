@@ -145,6 +145,8 @@
                 <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}  </p>
                 <p><strong>Paiement :</strong> {{$wageslip->date_de_paie}}</p>
             </div>
+                                <a href="{{route('wageslip.downloadPDF',$wageslip->id)}}">downloadPDF</a> <br>
+        
         </header>
 
         <section class="employee-details">

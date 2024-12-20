@@ -32,7 +32,7 @@
                             </h5>
                             <p class="card-text">
                                 content of the second card
-                                <a href="{{route('wageslip.downloadPDF')}}">downloadPDF</a> <br>
+                                <a href="{{route('wageslip.downloadPDF',['id'=>$wageSlip->id])}}">downloadPDF</a> <br>
                                 <a href="{{route('create')}}">create</a>
                             </p>
                         </div>

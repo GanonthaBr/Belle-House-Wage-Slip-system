@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\WageSlip;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use PhpParser\Node\Stmt\Catch_;
 
 
 class WageSlipController extends Controller
@@ -15,7 +14,7 @@ class WageSlipController extends Controller
         return view('form');
     }
 
-    public function downloadPDF($id)
+    public function downloadPDF(Request $request, $id)
     {
         try {
             ini_set('max_execution_time', 10000);
@@ -29,7 +28,7 @@ class WageSlipController extends Controller
             $image = "data:image/png;base64," . base64_encode(file_get_contents($imagePath));
 
             $data = ['wageslip' => $wageslipData, 'image' => $image];
-            $pdf = PDF::loadView('pdf.wageslip', $data);
+            $pdf = PDF::loadView('pdf.bulletin_salaire', $data);
 
             // Generate filename with employee name and date
             $employeeName = str_replace(' ', '_', $wageslipData->nom_employee);
@@ -38,7 +37,7 @@ class WageSlipController extends Controller
 
             return $pdf->download($filename);
         } catch (\Throwable $e) {
-            return redirect()->route('home')->with('error', 'Une erreur est survenue lors du telechargement');
+            return redirect()->route('home')->with('error', $e);
         }
     }
 
@@ -90,7 +89,7 @@ class WageSlipController extends Controller
             return redirect()->route('show', ['id' => $wageslip->id]);
         } catch (\Throwable $e) {
             print($e);
-            return redirect()->route('home')->with('error', $e,);
+            return redirect()->route('home')->with('error', 'Une erreur est survenue!',);
         }
     }
     public function update(Request $request, $id)
@@ -147,7 +146,7 @@ class WageSlipController extends Controller
     //edit
     public function edit($id)
     {
-        $wageslip = WageSlip::with('items')->find($id);
+        $wageslip = WageSlip::find($id);
         if (!$wageslip) {
             abort(404);
         }

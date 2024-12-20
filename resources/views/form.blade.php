@@ -4,6 +4,12 @@
 <div class="container">
     <div class="col-md-12">
         <h1 class="text-center">Creer un Bulletin de Salaire</h1>
+        {{-- show session message --}}
+            @if (session('error'))    
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif  
     </div>
     <div class="row">
         <div class="col-md-12 p-4">
