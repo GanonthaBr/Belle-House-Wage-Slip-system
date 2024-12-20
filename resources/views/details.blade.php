@@ -79,6 +79,31 @@
             color: green;
         }
 
+        .salary-slip__actions{
+            width: 35%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .salary-slip__actions a{
+            text-decoration: none;
+            color: #fff;
+            background-color: #61a1d6;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .salary-slip__actions a:nth-last-of-type(1){
+            background-color: #087c5f81;
+
+        }
+        .salary-slip__actions a:nth-child(1){
+            background-color: #f00;
+        }
+        .salary-slip__actions a:hover{
+            background-color: #08c661;
+        }
+
+
         footer {
             margin-top: 10px;
             font-size: 12px;
@@ -131,6 +156,15 @@
 @endphp
 <body>
     <div class="salary-slip">
+        {{-- section with action buttons --}}
+        <div class="salary-slip__header">
+            <div class="salary-slip__actions">
+                <a href="{{route('home')}}">Retour</a> <br>
+                <a href="{{route('wageslip.downloadPDF',$wageslip->id)}}">Telecharger PDF</a> <br>
+                <a href="{{route('edit',$wageslip->id)}}" class="btn btn-primary">Modifier</a>
+            </div>
+        </div>
+
         <header>
             <div class="company-details">
                 <h2>BELLE HOUSE</h2>
@@ -144,9 +178,7 @@
                 <p><strong>Mois :</strong>{{$wageslip->periode_de_paie}} </p>
                 <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}  </p>
                 <p><strong>Paiement :</strong> {{$wageslip->date_de_paie}}</p>
-            </div>
-                                <a href="{{route('wageslip.downloadPDF',$wageslip->id)}}">downloadPDF</a> <br>
-        
+            </div>        
         </header>
 
         <section class="employee-details">
