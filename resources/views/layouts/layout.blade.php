@@ -38,7 +38,7 @@ async function fetchEmployeeData() {
         const data = await response.json();
         console.log(data);
         document.getElementById("salaire_de_base").value =
-            data.salaire_de_base || "";
+            data.base_salary || "";
         document.getElementById("heures_supplementaires").value =
             data.heures_supplementaires || "";
         document.getElementById("prime_de_salissure").value =
@@ -53,19 +53,21 @@ async function fetchEmployeeData() {
             data.assurance_accident_de_travail || "";
         document.getElementById("nationalite").value =
             data.employee_nationality || "";
-        document.getElementById("nom_employee").value = data.first_name || "";
+        document.getElementById("nom_employee").value = data.first_name +' '+ data.last_name || "";
         document.getElementById("add_employee").value = data.add_employee || "";
         document.getElementById("periode_de_paie").value =
-            data.periode_de_paie || "";
+            data.periode_de_paie  || "";
         document.getElementById("date_de_paie").value = data.date_de_paie || "";
         document.getElementById("date_de_debut").value =
             data.date_de_debut || "";
         document.getElementById("date_de_fin").value = data.date_de_fin || "";
         document.getElementById("emploi").value = data.job_title || "";
-        document.getElementById("anciennete").value = data.anciennete || "";
+        document.getElementById("anciennete").value = data.hire_date || "";
         document.getElementById("taxe").value = data.taxe || "";
     } catch (error) {
-        document.getElementById('wage-slip-form').reset();
+        document.getElementById('wageslip-form').reset();
+        //reset the form except the matricule field
+        document.getElementById("matricule").value = matricule;
         // console.error("Error fetching employee data:", error);
     }
 }
