@@ -5,7 +5,12 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="text-center">Dashboard Belle House</h1>
-            
+            {{-- show session message --}}
+            @if (session('error'))    
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif        
             <div class="row">
                 <div class="col-md-6">
                     <div class="card half-screen">
@@ -27,7 +32,8 @@
                             </h5>
                             <p class="card-text">
                                 content of the second card
-                                <a href="{{route('wageslip.downloadPDF')}}">downloadPDF</a>
+                                <a href="{{route('wageslip.downloadPDF')}}">downloadPDF</a> <br>
+                                <a href="{{route('create')}}">create</a>
                             </p>
                         </div>
                     </div>

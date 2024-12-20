@@ -89,7 +89,8 @@ class WageSlipController extends Controller
             ]);
             return redirect()->route('show', ['id' => $wageslip->id]);
         } catch (\Throwable $e) {
-            return redirect()->route('home')->with('error', 'Une erreur est survenue',);
+            print($e);
+            return redirect()->route('home')->with('error', $e,);
         }
     }
     public function update(Request $request, $id)
@@ -155,7 +156,7 @@ class WageSlipController extends Controller
 
     public function show($id)
     {
-        $wageslip = WageSlip::with('items')->find($id);
+        $wageslip = WageSlip::find($id);
         if (!$wageslip) {
             abort(404);
         }

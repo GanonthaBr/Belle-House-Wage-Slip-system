@@ -7,7 +7,7 @@
     </div>
     <div class="row">
         <div class="col-md-12 p-4">
-            <form action="" method="POST" id="wageslip-form">
+            <form action="{{route('store')}}" method="POST" id="wageslip-form">
                 @csrf
                 <label for="matricule" class="form-label">Matricule:</label>
                 <input type="text" id="matricule" class="form-control" name="matricule" required oninput="fetchEmployeeData()" ><br>
@@ -58,7 +58,7 @@
                 <input type="text" id="emploi" class="form-control" name="emploi" required><br>
 
                 <label for="anciennete" class="form-label">Ancienneté:</label>
-                <input type="number" id="anciennete" class="form-control" name="anciennete" required><br>
+                <input type="date" id="anciennete" class="form-control" name="anciennete" required><br>
 
                 <label for="taxe" class="form-label">Taxe:</label>
                 <input type="number" id="taxe" class="form-control" name="taxe" required><br>

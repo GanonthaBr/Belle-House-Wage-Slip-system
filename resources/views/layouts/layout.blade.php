@@ -54,7 +54,7 @@ async function fetchEmployeeData() {
         document.getElementById("nationalite").value =
             data.employee_nationality || "";
         document.getElementById("nom_employee").value = data.first_name +' '+ data.last_name || "";
-        document.getElementById("add_employee").value = data.add_employee || "";
+        document.getElementById("add_employee").value = data.employee_address || "";
         document.getElementById("periode_de_paie").value =
             data.periode_de_paie  || "";
         document.getElementById("date_de_paie").value = data.date_de_paie || "";

@@ -107,7 +107,28 @@
         }
     </style>
 </head>
+@php
+    // Arithmetic operations
 
+    // EXTRA HOURS
+    $rate_extra_hours = 0.05 * $wageslip->salaire_de_base;
+    $extra_hours = $rate_extra_hours * $wageslip->heures_supplementaires;
+
+    // TOTAL
+    $total = $wageslip->salaire_de_base + $extra_hours + $wageslip->prime_de_salissure + $wageslip->prime_annuelle;
+
+    // TAX
+    $tax_rate = $wageslip->taxe / 100;
+    $tax = $wageslip->taxe / 100 * $total;
+
+    // NET IMPOSABLE
+    $net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
+
+    // NET PAY
+    $net_pay = $total - $net_imposable;
+    
+
+@endphp
 <body>
     <div class="salary-slip">
         <header>
@@ -154,29 +175,29 @@
                     <tr>
                         <td class="rubrique">SALAIRE DE BASE</td>
                         <td>{{$wageslip->salaire_de_base}}</td>
-                        <td>10.4000</td>
-                        <td>1577.37</td>
+                        <td>-</td>
+                        <td>{{$wageslip->salaire_de_base}}</td>
 
                     </tr>
                     <tr>
-                        <td class="rubrique">Heures supplémentaires 25%</td>
+                        <td class="rubrique">Heures supplémentaires 5%</td>
                         <td>{{$wageslip->heures_supplementaires}}</td>
-                        <td>13.0000</td>
-                        <td>279.50</td>
+                        <td> {{$rate_extra_hours}} </td>
+                        <td> {{$extra_hours}} </td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Prime de Salissure</td>
                         <td>{{$wageslip->prime_de_salissure}}</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td>-</td>
+                        <td>{{$wageslip->prime_de_salissure}}</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Prime Annuelle</td>
                         <td>{{$wageslip->prime_annuelle}}</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td>-</td>
+                        <td>{{$wageslip->prime_annuelle}}</td>
 
                     </tr>
 
@@ -184,42 +205,42 @@
                         <td class="rubrique">SALAIRE BRUT TOTAL</td>
                         <td>-</td>
                         <td>-</td>
-                        <td><strong>2124.10</strong></td>
+                        <td><strong> {{$total}} </strong></td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Avance sur Salaire</td>
                         <td>{{$wageslip->avance_sur_salaire}}</td>
-                        <td>10.4000</td>
-                        <td>1577.37</td>
+                        <td>-</td>
+                        <td>{{$wageslip->avance_sur_salaire}}</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Maladie</td>
                         <td>{{$wageslip->assurance_maladie}}</td>
-                        <td>13.0000</td>
-                        <td>279.50</td>
+                        <td>-</td>
+                        <td>{{$wageslip->assurance_maladie}}</td>
 
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Accident de Travail</td>
                         <td>{{$wageslip->assurance_accident_de_travail}}</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td>-</td>
+                        <td>{{$wageslip->assurance_accident_de_travail}}</td>
 
                     </tr>
                     <tr>
-                        <td class="rubrique">Taxe</td>
-                        <td>{{$wageslip->taxe}}</td>
-                        <td>15.6000</td>
-                        <td>15.60</td>
+                        <td class="rubrique">Taxe </td>
+                        <td>{{$wageslip->taxe}}%</td>
+                        <td>{{$tax_rate}}</td>
+                        <td>{{$tax}}</td>
 
                     </tr>
                     <tr class="break-point">
                         <td class="rubrique">NET IMPOSABLE</td>
                         <td>-</td>
                         <td>-</td>
-                        <td><strong>2124.10</strong></td>
+                        <td><strong> {{$net_imposable}} </strong></td>
 
                     </tr>
                 </tbody>
@@ -228,12 +249,12 @@
 
         <section class="summary">
             <div>
-                <p><strong>Total des Retenues :</strong> 1111.16</p>
-                <p><strong>Total des Cotisations Patronales :</strong> 627.59</p>
+                <p><strong>Total des Retenues :</strong> {{$total}} FCFA</p>
+                <p><strong>Total des Cotisations Patronales :</strong> {{$net_imposable}} FCFA</p>
             </div>
             <div class="net-pay">
                 <h3>NET À PAYER :</h3>
-                <h2>1562.65 FCFA</h2>
+                <h2> {{$net_pay}} FCFA</h2>
             </div>
         </section>
 
