@@ -39,8 +39,7 @@
                 <label for="assurance_accident_de_travail" class="form-label">Assurance Accident de Travail:</label>
                 <input type="number" id="assurance_accident_de_travail" class="form-control" name="assurance_accident_de_travail"><br>
 
-                <label for="nationalite" class="form-label">Nationalité:</label>
-                <input type="text" id="nationalite" class="form-control" name="nationalite" required><br>
+                <input type="hidden" id="nationalite" class="form-control" name="nationalite" required>
 
                 <label for="nom_employee" class="form-label">Nom Employee:</label>
                 <input type="text" id="nom_employee" class="form-control" name="nom_employee" required><br>

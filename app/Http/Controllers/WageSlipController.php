@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\WageSlip;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 
 class WageSlipController extends Controller
@@ -69,7 +70,21 @@ class WageSlipController extends Controller
                 'anciennete' => 'nullable',
                 'taxe' => 'nullable',
             ]);
-
+            // Fetch the last wage slip for this current employee
+            $lastWageSlip = WageSlip::where('matricule', request('matricule'))->orderBy('date_de_fin', 'desc')->first();
+            if ($lastWageSlip) {
+                //calculate the new date based on the last wage slip
+                $dateDeDebut = Carbon::parse($lastWageSlip->date_de_fin)->addDay();
+                $dateDeFin = $dateDeDebut->copy()->endOfMonth();
+                $periodeDePaie = $dateDeDebut->format('F Y');
+                $dateDePaie = Carbon::now();
+            } else {
+                //set default date if no previous wage slip exists
+                $dateDeDebut = Carbon::now()->startOfMonth();
+                $dateDeFin = $dateDeDebut->copy()->endOfMonth();
+                $periodeDePaie = $dateDeDebut->format('F Y');
+                $dateDePaie = Carbon::now();
+            }
             //create an item
             $wageslip = WageSlip::create([
                 'matricule' => request('matricule'),
@@ -83,17 +98,17 @@ class WageSlipController extends Controller
                 'nationalite' => request('nationalite'),
                 'nom_employee' => request('nom_employee'),
                 'add_employee' => request('add_employee'),
-                'periode_de_paie' => request('periode_de_paie'),
-                'date_de_paie' => request('date_de_paie'),
-                'date_de_debut' => request('date_de_debut'),
-                'date_de_fin' => request('date_de_fin'),
+                'periode_de_paie' => $periodeDePaie,
+                'date_de_paie' => $dateDePaie,
+                'date_de_debut' => $dateDeDebut,
+                'date_de_fin' => $dateDeFin,
                 'emploi' => request('emploi'),
                 'anciennete' => request('anciennete'),
                 'taxe' => request('taxe'),
             ]);
             return redirect()->route('show', ['id' => $wageslip->id]);
         } catch (\Throwable $e) {
-            print($e);
+            // print($e);
             return redirect()->route('home')->with('error', 'Une erreur est survenue!',);
         }
     }
@@ -110,16 +125,28 @@ class WageSlipController extends Controller
                 'assurance_maladie' => 'nullable',
                 'assurance_accident_de_travail' => 'nullable',
                 'nationalite' => 'nullable',
-                'nom_employee' => 'nullable',
+                'nom_employee' => 'required | string',
                 'add_employee' => 'nullable',
-                'periode_de_paie' => 'nullable',
-                'date_de_paie' => 'nullable',
-                'date_de_debut' => 'nullable',
-                'date_de_fin' => 'nullable',
                 'emploi' => 'nullable',
                 'anciennete' => 'nullable',
                 'taxe' => 'nullable',
             ]);
+            // dd($request->all());
+            // Fetch the last wage slip for this current employee
+            $lastWageSlip = WageSlip::where('matricule', request('matricule'))->orderBy('date_de_fin', 'desc')->first();
+            if ($lastWageSlip) {
+                //calculate the new date based on the last wage slip
+                $dateDeDebut = Carbon::parse($lastWageSlip->date_de_fin)->addDay();
+                $dateDeFin = $dateDeDebut->copy()->endOfMonth();
+                $periodeDePaie = $dateDeFin->format('F Y');
+                $dateDePaie = Carbon::now();
+            } else {
+                //set default date if no previous wage slip exists
+                $dateDeDebut = Carbon::now()->startOfMonth();
+                $dateDeFin = $dateDeDebut->copy()->endOfMonth();
+                $periodeDePaie = $dateDeDebut->format('F Y');
+                $dateDePaie = Carbon::now();
+            }
             //update an item
             $wageslip = WageSlip::findOrFail($id);
             $wageslip->update([
@@ -134,10 +161,10 @@ class WageSlipController extends Controller
                 'nationalite' => request('nationalite'),
                 'nom_employee' => request('nom_employee'),
                 'add_employee' => request('add_employee'),
-                'periode_de_paie' => request('periode_de_paie'),
-                'date_de_paie' => request('date_de_paie'),
-                'date_de_debut' => request('date_de_debut'),
-                'date_de_fin' => request('date_de_fin'),
+                'periode_de_paie' => $periodeDePaie,
+                'date_de_paie' => $dateDePaie,
+                'date_de_debut' => $dateDeDebut,
+                'date_de_fin' => $dateDeFin,
                 'emploi' => request('emploi'),
                 'anciennete' => request('anciennete'),
                 'taxe' => request('taxe'),

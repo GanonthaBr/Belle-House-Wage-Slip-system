@@ -188,7 +188,7 @@ $net_pay = $total - $net_imposable;
                 <h2>BULLETIN DE SALAIRE</h2>
                 <p><strong>Mois :</strong>{{$wageslip->periode_de_paie}} </p>
                 <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}} </p>
-                <p><strong>Paiement :</strong> {{$wageslip->date_de_paie}}</p>
+                <p><strong>Date Paiement :</strong> {{$wageslip->date_de_paie}}</p>
             </div>
         </header>
 
@@ -200,7 +200,7 @@ $net_pay = $total - $net_imposable;
             </div>
             <div>
                 <p><strong>Matricule :</strong> {{$wageslip->matricule}}</p>
-                <p><strong>Entrée :</strong>{{$wageslip->date_de_paie}} </p>
+                {{-- <p><strong>Entrée :</strong>{{$wageslip->date_de_paie}} </p> --}}
                 <p><strong>Telephone :</strong>{{$wageslip->empl_phone}} </p>
             </div>
         </section>
