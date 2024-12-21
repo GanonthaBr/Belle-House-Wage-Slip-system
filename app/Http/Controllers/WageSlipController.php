@@ -38,8 +38,9 @@ class WageSlipController extends Controller
 
             // Generate filename with employee name and date
             $employeeName = str_replace(' ', '_', $wageslipData->nom_employee);
-            $date = \Carbon\Carbon::parse($wageslipData->date_de_paie)->format('Y_m_d');
-            $filename = "Bulletin_de_salaire_{$employeeName}_{$date}.pdf";
+            $date = Carbon::parse($wageslipData->date_de_paie)->format('Y_m_d');
+            $period = $wageslipData->periode_de_paie;
+            $filename = "Bulletin_de_salaire_{$employeeName}_{$period}.pdf";
 
             return $pdf->download($filename);
         } catch (\Throwable $e) {
@@ -85,16 +86,45 @@ class WageSlipController extends Controller
                 $periodeDePaie = $dateDeDebut->format('F Y');
                 $dateDePaie = Carbon::now();
             }
+
+            //set default value 0 for heures_supplementaires, prime_de_salissure, prime_annuelle, avance_sur_salaire, assurance_maladie, assurance_accident_de_travail
+            $heures_supplementaires = request('heures_supplementaires') ?? 0;
+            $prime_de_salissure = request('prime_de_salissure') ?? 0;
+            $prime_annuelle = request('prime_annuelle') ?? 0;
+            $avance_sur_salaire = request('avance_sur_salaire') ?? 0;
+            $assurance_maladie = request('assurance_maladie') ?? 0;
+            $assurance_accident_de_travail = request('assurance_accident_de_travail') ?? 0;
+            // Set tax rate based on salary range
+            $salaireDeBase = request('salaire_de_base');
+            if ($salaireDeBase <= 25000) {
+                $taxe = 1;
+            } elseif ($salaireDeBase <= 50000) {
+                $taxe = 2;
+            } elseif ($salaireDeBase <= 100000) {
+                $taxe = 6;
+            } elseif ($salaireDeBase <= 150000) {
+                $taxe = 13;
+            } elseif ($salaireDeBase <= 300000) {
+                $taxe = 25;
+            } elseif ($salaireDeBase <= 400000) {
+                $taxe = 30;
+            } elseif ($salaireDeBase <= 700000) {
+                $taxe = 32;
+            } elseif ($salaireDeBase <= 1000000) {
+                $taxe = 34;
+            } else {
+                $taxe = 35;
+            }
             //create an item
             $wageslip = WageSlip::create([
                 'matricule' => request('matricule'),
                 'salaire_de_base' => request('salaire_de_base'),
-                'heures_supplementaires' => request('heures_supplementaires'),
-                'prime_de_salissure' => request('prime_de_salissure'),
-                'prime_annuelle' => request('prime_annuelle'),
-                'avance_sur_salaire' => request('avance_sur_salaire'),
-                'assurance_maladie' => request('assurance_maladie'),
-                'assurance_accident_de_travail' => request('assurance_accident_de_travail'),
+                'heures_supplementaires' => $heures_supplementaires,
+                'prime_de_salissure' => $prime_de_salissure,
+                'prime_annuelle' => $prime_annuelle,
+                'avance_sur_salaire' => $avance_sur_salaire,
+                'assurance_maladie' => $assurance_maladie,
+                'assurance_accident_de_travail' => $assurance_accident_de_travail,
                 'nationalite' => request('nationalite'),
                 'nom_employee' => request('nom_employee'),
                 'add_employee' => request('add_employee'),
@@ -104,12 +134,12 @@ class WageSlipController extends Controller
                 'date_de_fin' => $dateDeFin,
                 'emploi' => request('emploi'),
                 'anciennete' => request('anciennete'),
-                'taxe' => request('taxe'),
+                'taxe' => $taxe,
             ]);
             return redirect()->route('show', ['id' => $wageslip->id]);
         } catch (\Throwable $e) {
             // print($e);
-            return redirect()->route('home')->with('error', 'Une erreur est survenue!',);
+            return redirect()->route('home')->with('error', value: $e,);
         }
     }
     public function update(Request $request, $id)
@@ -147,6 +177,27 @@ class WageSlipController extends Controller
                 $periodeDePaie = $dateDeDebut->format('F Y');
                 $dateDePaie = Carbon::now();
             }
+            // Set tax rate based on salary range
+            $salaireDeBase = request('salaire_de_base');
+            if ($salaireDeBase <= 25000) {
+                $taxe = 1;
+            } elseif ($salaireDeBase <= 50000) {
+                $taxe = 2;
+            } elseif ($salaireDeBase <= 100000) {
+                $taxe = 6;
+            } elseif ($salaireDeBase <= 150000) {
+                $taxe = 13;
+            } elseif ($salaireDeBase <= 300000) {
+                $taxe = 25;
+            } elseif ($salaireDeBase <= 400000) {
+                $taxe = 30;
+            } elseif ($salaireDeBase <= 700000) {
+                $taxe = 32;
+            } elseif ($salaireDeBase <= 1000000) {
+                $taxe = 34;
+            } else {
+                $taxe = 35;
+            }
             //update an item
             $wageslip = WageSlip::findOrFail($id);
             $wageslip->update([
@@ -167,10 +218,11 @@ class WageSlipController extends Controller
                 'date_de_fin' => $dateDeFin,
                 'emploi' => request('emploi'),
                 'anciennete' => request('anciennete'),
-                'taxe' => request('taxe'),
+                'taxe' => $taxe,
             ]);
             return redirect()->route('show', ['id' => $wageslip->id])->with('message', 'Ce bulletin a ete mis a jour avec succes!',);
         } catch (\Throwable $e) {
+
             return redirect()->route('home')->with('error', 'Une erreur est survenue',);
         }
     }

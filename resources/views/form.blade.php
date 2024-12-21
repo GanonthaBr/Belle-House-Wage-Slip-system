@@ -39,7 +39,8 @@
                 <label for="assurance_accident_de_travail" class="form-label">Assurance Accident de Travail:</label>
                 <input type="number" id="assurance_accident_de_travail" class="form-control" name="assurance_accident_de_travail"><br>
 
-                <input type="hidden" id="nationalite" class="form-control" name="nationalite" required>
+                <label for="nationalite" class="form-label">Nationalité:</label>
+                <input type="text" id="nationalite" class="form-control" name="nationalite" required ><br>
 
                 <label for="nom_employee" class="form-label">Nom Employee:</label>
                 <input type="text" id="nom_employee" class="form-control" name="nom_employee" required><br>
@@ -47,17 +48,17 @@
                 <label for="add_employee" class="form-label">Adresse Employee:</label>
                 <input type="text" id="add_employee" class="form-control" name="add_employee" required><br>
 
-                <label for="periode_de_paie" class="form-label">Période de Paie:</label>
-                <input type="date" id="periode_de_paie" class="form-control" name="periode_de_paie" required><br>
+                {{-- <label for="periode_de_paie" class="form-label">Période de Paie:</label> --}}
+                <input type="hidden" id="periode_de_paie" class="form-control" name="periode_de_paie" required><br>
 
-                <label for="date_de_paie" class="form-label">Date de Paie:</label>
-                <input type="date" id="date_de_paie" class="form-control" name="date_de_paie" required><br>
+                {{-- <label for="date_de_paie" class="form-label">Date de Paie:</label> --}}
+                <input type="hidden" id="date_de_paie" class="form-control" name="date_de_paie" required><br>
 
-                <label for="date_de_debut" class="form-label">Date de Début:</label>
-                <input type="date" id="date_de_debut" class="form-control" name="date_de_debut" required><br>
+                {{-- <label for="date_de_debut" class="form-label">Date de Début:</label> --}}
+                <input type="hidden" id="date_de_debut" class="form-control" name="date_de_debut" required><br>
 
-                <label for="date_de_fin" class="form-label">Date de Fin:</label>
-                <input type="date" id="date_de_fin" class="form-control" name="date_de_fin" required><br>
+                {{-- <label for="date_de_fin" class="form-label">Date de Fin:</label> --}}
+                <input type="hidden" id="date_de_fin" class="form-control" name="date_de_fin" required><br>
 
                 <label for="emploi" class="form-label">Emploi:</label>
                 <input type="text" id="emploi" class="form-control" name="emploi" required><br>
@@ -66,7 +67,7 @@
                 <input type="date" id="anciennete" class="form-control" name="anciennete" required><br>
 
                 <label for="taxe" class="form-label">Taxe:</label>
-                <input type="number" id="taxe" class="form-control" name="taxe" required><br>
+                <input type="hidded" id="taxe" class="form-control" name="taxe"><br>
 
                 <button type="submit" class="form-control">Create</button>
             </form>
