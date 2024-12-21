@@ -14,14 +14,12 @@
                     <div class="alert alert-warning">
                         {{ session('message') }}
                     </div>
-
                     @endif
                     @if ($wageslips->isEmpty())
                     <div class="alert alert-warning">
                         Aucun bulletin de salaire n'a été trouvé.
                     </div>
                     @else
-
                     <table class="table table-striped">
                         <thead>
                             <tr>

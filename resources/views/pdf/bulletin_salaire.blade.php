@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -134,7 +133,6 @@ $net_pay = $total - $net_imposable;
 
 
 @endphp
-
 <body>
     <div class="salary-slip">
         <header>
@@ -192,7 +190,6 @@ $net_pay = $total - $net_imposable;
         </section>
         <h2 style="text-align: center">BULLETIN DE SALAIRE</h2>
         <div class="pay-period" style="font-size: 12px; width: 100%; text-align: center; color:rgb(149, 176, 196);">
-
             <strong>Mois :</strong>{{$wageslip->periode_de_paie}}|
             <strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}|
             <strong>Paiement :</strong> {{$wageslip->date_de_paie}}
@@ -205,7 +202,6 @@ $net_pay = $total - $net_imposable;
                         <th>Base</th>
                         <th>Taux Salarial</th>
                         <th>Montant Salarial</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -214,76 +210,64 @@ $net_pay = $total - $net_imposable;
                         <td>{{$wageslip->salaire_de_base}}</td>
                         <td>-</td>
                         <td>{{$wageslip->salaire_de_base}}</td>
-
                     </tr>
                     <tr>
                         <td class="rubrique">Heures supplémentaires 5%</td>
                         <td>{{$wageslip->heures_supplementaires}}</td>
                         <td> {{$rate_extra_hours}} </td>
                         <td> {{$extra_hours}} </td>
-
                     </tr>
                     <tr>
                         <td class="rubrique">Prime de Salissure</td>
                         <td>{{$wageslip->prime_de_salissure}}</td>
                         <td>-</td>
                         <td>{{$wageslip->prime_de_salissure}}</td>
-
                     </tr>
                     <tr>
                         <td class="rubrique">Prime Annuelle</td>
                         <td>{{$wageslip->prime_annuelle}}</td>
                         <td>-</td>
                         <td>{{$wageslip->prime_annuelle}}</td>
-
                     </tr>
-
                     <tr class="break-point">
                         <td class="rubrique">SALAIRE BRUT TOTAL</td>
                         <td>-</td>
                         <td>-</td>
                         <td><strong> {{$total}} </strong></td>
-
                     </tr>
                     <tr>
                         <td class="rubrique">Avance sur Salaire</td>
                         <td>{{$wageslip->avance_sur_salaire}}</td>
                         <td>-</td>
                         <td>{{$wageslip->avance_sur_salaire}}</td>
-
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Maladie</td>
                         <td>{{$wageslip->assurance_maladie}}</td>
                         <td>-</td>
                         <td>{{$wageslip->assurance_maladie}}</td>
-
                     </tr>
                     <tr>
                         <td class="rubrique">Assurance Accident de Travail</td>
                         <td>{{$wageslip->assurance_accident_de_travail}}</td>
                         <td>-</td>
                         <td>{{$wageslip->assurance_accident_de_travail}}</td>
-
                     </tr>
                     <tr>
                         <td class="rubrique">Taxe </td>
                         <td>{{$wageslip->taxe}}%</td>
                         <td>{{$tax_rate}}</td>
                         <td>{{$tax}}</td>
-
                     </tr>
                     <tr class="break-point">
                         <td class="rubrique">NET IMPOSABLE</td>
                         <td>-</td>
                         <td>-</td>
                         <td><strong> {{$net_imposable}} </strong></td>
-
                     </tr>
                 </tbody>
             </table>
         </section>
-
         <section class="summary">
             <div>
                 <p><strong>Total des Retenues :</strong> {{$total}} FCFA</p>
@@ -294,12 +278,10 @@ $net_pay = $total - $net_imposable;
                 <h2> {{$net_pay}} FCFA</h2>
             </div>
         </section>
-
         <footer>
             <span> Compte Ecobank: <b class="black-footer">160940732001</b> Compte Orabank: <b class="black-footer">76495401901 </b>Compte BIA: <b class="black-footer">61001260006</b> Compte BOA: <b class="black-footer">004404430009</b> </span> <br>
             <b class="black-footer"> RCCM-NE-NIM-01-2017-A10-02845- NIF : 43391/P.</b>
         </footer>
     </div>
 </body>
-
 </html>

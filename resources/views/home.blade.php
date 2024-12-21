@@ -1,6 +1,5 @@
 @extends('layouts.layout')
 @section('content')
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -20,7 +19,7 @@
                             </h5>
                             {{-- list of employees. Just the html without the data, we will the data from js with external API call --}}
                             <ul class="list-group employees">
-                                
+                                {{-- Data fetched from API --}}
                             </ul>
                             <a href="{{route('employees')}}" class="btn btn-primary m-4">Voir tous les Employees</a>
                         </div>

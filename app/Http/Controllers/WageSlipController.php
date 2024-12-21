@@ -41,15 +41,12 @@ class WageSlipController extends Controller
             $date = Carbon::parse($wageslipData->date_de_paie)->format('Y_m_d');
             $period = $wageslipData->periode_de_paie;
             $filename = "Bulletin_de_salaire_{$employeeName}_{$period}.pdf";
-
             // dd(Carbon::now()->startOfMonth()->format('Y_m_d_H_i_s'));
-
             return $pdf->download($filename);
         } catch (\Throwable $e) {
             return redirect()->route('home')->with('error', 'Une erreur est survenue lors du telechargement');
         }
     }
-
     public function store(Request $request)
     {
         try {
@@ -90,7 +87,6 @@ class WageSlipController extends Controller
                 $periodeDePaie = $dateDeDebut->format('F Y');
                 $dateDePaie = Carbon::now();
             }
-
             //set default value 0 for heures_supplementaires, prime_de_salissure, prime_annuelle, avance_sur_salaire, assurance_maladie, assurance_accident_de_travail
             $heures_supplementaires = request('heures_supplementaires') ?? 0;
             $prime_de_salissure = request('prime_de_salissure') ?? 0;
@@ -98,7 +94,6 @@ class WageSlipController extends Controller
             $avance_sur_salaire = request('avance_sur_salaire') ?? 0;
             $assurance_maladie = request('assurance_maladie') ?? 0;
             $assurance_accident_de_travail = request('assurance_accident_de_travail') ?? 0;
-
             //if $heures_supplementaires is less than 10, set it to 0
             if ($heures_supplementaires < 10) {
                 $heures_supplementaires = 0;
@@ -188,7 +183,6 @@ class WageSlipController extends Controller
                 $periodeDePaie = $dateDeDebut->format('F Y');
                 $dateDePaie = Carbon::now();
             }
-
             //if $heures_supplementaires is less than 10, set it to 0
             $heures_supplementaires = request('heures_supplementaires') ?? 0;
             if ($heures_supplementaires < 10) {
@@ -244,7 +238,6 @@ class WageSlipController extends Controller
             return redirect()->route('home')->with('error', 'Une erreur est survenue',);
         }
     }
-
     //edit
     public function edit($id)
     {
@@ -254,7 +247,6 @@ class WageSlipController extends Controller
         }
         return view('edit', compact('wageslip'));
     }
-
     public function show($id)
     {
         $wageslip = WageSlip::find($id);
