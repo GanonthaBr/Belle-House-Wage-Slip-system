@@ -42,6 +42,8 @@ class WageSlipController extends Controller
             $period = $wageslipData->periode_de_paie;
             $filename = "Bulletin_de_salaire_{$employeeName}_{$period}.pdf";
 
+            // dd(Carbon::now()->startOfMonth()->format('Y_m_d_H_i_s'));
+
             return $pdf->download($filename);
         } catch (\Throwable $e) {
             return redirect()->route('home')->with('error', 'Une erreur est survenue lors du telechargement');
@@ -96,6 +98,11 @@ class WageSlipController extends Controller
             $avance_sur_salaire = request('avance_sur_salaire') ?? 0;
             $assurance_maladie = request('assurance_maladie') ?? 0;
             $assurance_accident_de_travail = request('assurance_accident_de_travail') ?? 0;
+
+            //if $heures_supplementaires is less than 10, set it to 0
+            if ($heures_supplementaires < 10) {
+                $heures_supplementaires = 0;
+            }
             // Set tax rate based on salary range
             $salaireDeBase = request('salaire_de_base');
             if ($salaireDeBase <= 25000) {
@@ -180,6 +187,12 @@ class WageSlipController extends Controller
                 $dateDeFin = $dateDeDebut->copy()->endOfMonth();
                 $periodeDePaie = $dateDeDebut->format('F Y');
                 $dateDePaie = Carbon::now();
+            }
+
+            //if $heures_supplementaires is less than 10, set it to 0
+            $heures_supplementaires = request('heures_supplementaires') ?? 0;
+            if ($heures_supplementaires < 10) {
+                $heures_supplementaires = 0;
             }
             // Set tax rate based on salary range
             $salaireDeBase = request('salaire_de_base');

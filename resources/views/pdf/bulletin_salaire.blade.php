@@ -145,8 +145,7 @@ $net_pay = $total - $net_imposable;
                             <h2>BELLE HOUSE</h2>
                             <span style="font-size: 12px;">
                                 <p>Entreprise de Construction Moderne</p>
-                                <p>Niamey - Niger</p>
-                                <p>Quartier Koubia</p>
+                                <p>Niamey - Niger | Quartier Koubia</p>
                                 <div>Numéro de téléphone : <span style="color:#61a1d6">+227 92 08 50 50</span> </div>
                                 <div class="email">Email:
                                     <a href="mailto:contact@bellehouseniger.com"><span style="color:#61a1d6">Contact@bellehouseniger.com</span></a>
