@@ -79,6 +79,11 @@
             color: green;
         }
 
+        a {
+            text-decoration: none;
+            color: #61a1d6;
+        }
+
         footer {
             margin-top: 10px;
             font-size: 12px;
@@ -108,27 +113,28 @@
     </style>
 </head>
 @php
-    // Arithmetic operations
+// Arithmetic operations
 
-    // EXTRA HOURS
-    $rate_extra_hours = 0.05 * $wageslip->salaire_de_base;
-    $extra_hours = $rate_extra_hours * $wageslip->heures_supplementaires;
+// EXTRA HOURS
+$rate_extra_hours = 0.05 * $wageslip->salaire_de_base;
+$extra_hours = $rate_extra_hours * $wageslip->heures_supplementaires;
 
-    // TOTAL
-    $total = $wageslip->salaire_de_base + $extra_hours + $wageslip->prime_de_salissure + $wageslip->prime_annuelle;
+// TOTAL
+$total = $wageslip->salaire_de_base + $extra_hours + $wageslip->prime_de_salissure + $wageslip->prime_annuelle;
 
-    // TAX
-    $tax_rate = $wageslip->taxe / 100;
-    $tax = $wageslip->taxe / 100 * $total;
+// TAX
+$tax_rate = $wageslip->taxe / 100;
+$tax = $wageslip->taxe / 100 * $total;
 
-    // NET IMPOSABLE
-    $net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
+// NET IMPOSABLE
+$net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
 
-    // NET PAY
-    $net_pay = $total - $net_imposable;
-    
+// NET PAY
+$net_pay = $total - $net_imposable;
+
 
 @endphp
+
 <body>
     <div class="salary-slip">
         <header>
@@ -137,19 +143,24 @@
                     <td style="width: 50%; vertical-align: top; text-align: left; border: none;">
                         <div class="company-details">
                             <h2>BELLE HOUSE</h2>
-                            <p>Entreprise de Construction Moderne</p>
-                            <p>Niamey - Niger</p>
-                            <p>Quuartier Koubie</p>
-                           
+                            <span style="font-size: 12px;">
+                                <p>Entreprise de Construction Moderne</p>
+                                <p>Niamey - Niger</p>
+                                <p>Quartier Koubia</p>
+                                <div>Numéro de téléphone : <span style="color:#61a1d6">+227 92 08 50 50</span> </div>
+                                <div class="email">Email:
+                                    <a href="mailto:contact@bellehouseniger.com"><span style="color:#61a1d6">Contact@bellehouseniger.com</span></a>
+                                </div>
+                                <div class="email">Site Web:
+                                    <a href="www.bellehouseniger.com"><span> <span style="color:#61a1d6">bellehouseniger.com</span> </span></a>
+                                </div>
+                            </span>
                         </div>
                     </td>
                     <td style="width: 50%; vertical-align: top; text-align: right; border: none;">
-                        <div class="pay-period">
-                            <h2>   <br>  </h2>
-                            <p><strong>Mois :</strong>{{$wageslip->periode_de_paie}} </p>
-                            <p><strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}  </p>
-                            <p><strong>Paiement :</strong> {{$wageslip->date_de_paie}}</p>
-                        </div>
+                        <a href="#">
+                            <img src="{{$image}}" width="170" height="120" alt="logo" />
+                        </a>
                     </td>
                 </tr>
                 {{-- <tr>
@@ -174,13 +185,19 @@
                         <div>
                             <p><strong>Matricule :</strong> {{$wageslip->matricule}}</p>
                             <p><strong>Entrée :</strong>{{$wageslip->date_de_paie}} </p>
-                            <p><strong>Telephone :</strong>{{$wageslip->empl_phone}} </p>
+                            <p><strong>Telephone :</strong>{{$wageslip->employee_phone}} </p>
                         </div>
                     </td>
                 </tr>
             </table>
         </section>
-         <h2 style="text-align: center" >BULLETIN DE SALAIRE</h2>
+        <h2 style="text-align: center">BULLETIN DE SALAIRE</h2>
+        <div class="pay-period" style="font-size: 12px; width: 100%; text-align: center; color:rgb(149, 176, 196);">
+
+            <strong>Mois :</strong>{{$wageslip->periode_de_paie}}|
+            <strong>Période :</strong>Du {{$wageslip->date_de_debut}} Au {{$wageslip->date_de_fin}}|
+            <strong>Paiement :</strong> {{$wageslip->date_de_paie}}
+        </div>
         <section class="table-section">
             <table>
                 <thead>

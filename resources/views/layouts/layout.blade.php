@@ -92,6 +92,7 @@
                 document.getElementById("emploi").value = data.job_title || "";
                 document.getElementById("anciennete").value = data.hire_date || "";
                 document.getElementById("taxe").value = data.taxe || "";
+                document.getElementById("employee_phone").value = data.phone_number || "";
             } catch (error) {
                 document.getElementById('wageslip-form').reset();
                 //reset the form except the matricule field

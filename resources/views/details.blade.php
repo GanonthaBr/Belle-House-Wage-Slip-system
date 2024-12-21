@@ -201,7 +201,7 @@ $net_pay = $total - $net_imposable;
             <div>
                 <p><strong>Matricule :</strong> {{$wageslip->matricule}}</p>
                 {{-- <p><strong>Entrée :</strong>{{$wageslip->date_de_paie}} </p> --}}
-                <p><strong>Telephone :</strong>{{$wageslip->empl_phone}} </p>
+                <p><strong>Telephone :</strong>{{$wageslip->employee_phone}} </p>
             </div>
         </section>
 

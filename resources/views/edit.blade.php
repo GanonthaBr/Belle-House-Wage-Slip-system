@@ -39,6 +39,8 @@
 
                 <label for="nom_employee" class="form-label">Nom Employee:</label>
                 <input type="text" id="nom_employee" class="form-control" name="nom_employee" value="{{ $wageslip->nom_employee }}" required><br>
+                <label for="employee_phone" class="form-label" >Employee Phone:</label>
+                <input type="text" id="employee_phone" class="form-control" name="employee_phone" value="{{$wageslip->employee_phone}}" ><br>
 
                 {{-- <label for="periode_de_paie" class="form-label">Période de Paie:</label> --}}
                 <input type="hidden" id="periode_de_paie" class="form-control" name="periode_de_paie" value="{{ $wageslip->periode_de_paie }}" required><br>

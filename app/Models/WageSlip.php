@@ -25,6 +25,7 @@ class WageSlip extends Model
         'date_de_fin',
         'emploi',
         'anciennete',
-        'taxe'
+        'taxe',
+        'employee_phone',
     ];
 }

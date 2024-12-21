@@ -70,6 +70,8 @@ class WageSlipController extends Controller
                 'emploi' => 'nullable',
                 'anciennete' => 'nullable',
                 'taxe' => 'nullable',
+                'employee_phone' => 'nullable',
+
             ]);
             // Fetch the last wage slip for this current employee
             $lastWageSlip = WageSlip::where('matricule', request('matricule'))->orderBy('date_de_fin', 'desc')->first();
@@ -101,19 +103,19 @@ class WageSlipController extends Controller
             } elseif ($salaireDeBase <= 50000) {
                 $taxe = 2;
             } elseif ($salaireDeBase <= 100000) {
-                $taxe = 6;
+                $taxe = 2;
             } elseif ($salaireDeBase <= 150000) {
-                $taxe = 13;
+                $taxe = 3;
             } elseif ($salaireDeBase <= 300000) {
-                $taxe = 25;
+                $taxe = 5;
             } elseif ($salaireDeBase <= 400000) {
-                $taxe = 30;
+                $taxe = 5;
             } elseif ($salaireDeBase <= 700000) {
-                $taxe = 32;
+                $taxe = 7;
             } elseif ($salaireDeBase <= 1000000) {
-                $taxe = 34;
+                $taxe = 10;
             } else {
-                $taxe = 35;
+                $taxe = 10;
             }
             //create an item
             $wageslip = WageSlip::create([
@@ -135,6 +137,7 @@ class WageSlipController extends Controller
                 'emploi' => request('emploi'),
                 'anciennete' => request('anciennete'),
                 'taxe' => $taxe,
+                'employee_phone' => request('employee_phone'),
             ]);
             return redirect()->route('show', ['id' => $wageslip->id]);
         } catch (\Throwable $e) {
@@ -160,6 +163,7 @@ class WageSlipController extends Controller
                 'emploi' => 'nullable',
                 'anciennete' => 'nullable',
                 'taxe' => 'nullable',
+                'employee_phone' => 'nullable',
             ]);
             // dd($request->all());
             // Fetch the last wage slip for this current employee
@@ -184,19 +188,19 @@ class WageSlipController extends Controller
             } elseif ($salaireDeBase <= 50000) {
                 $taxe = 2;
             } elseif ($salaireDeBase <= 100000) {
-                $taxe = 6;
+                $taxe = 2;
             } elseif ($salaireDeBase <= 150000) {
-                $taxe = 13;
+                $taxe = 3;
             } elseif ($salaireDeBase <= 300000) {
-                $taxe = 25;
+                $taxe = 5;
             } elseif ($salaireDeBase <= 400000) {
-                $taxe = 30;
+                $taxe = 5;
             } elseif ($salaireDeBase <= 700000) {
-                $taxe = 32;
+                $taxe = 7;
             } elseif ($salaireDeBase <= 1000000) {
-                $taxe = 34;
+                $taxe = 10;
             } else {
-                $taxe = 35;
+                $taxe = 10;
             }
             //update an item
             $wageslip = WageSlip::findOrFail($id);
@@ -219,6 +223,7 @@ class WageSlipController extends Controller
                 'emploi' => request('emploi'),
                 'anciennete' => request('anciennete'),
                 'taxe' => $taxe,
+                'employee_phone' => request('employee_phone'),
             ]);
             return redirect()->route('show', ['id' => $wageslip->id])->with('message', 'Ce bulletin a ete mis a jour avec succes!',);
         } catch (\Throwable $e) {

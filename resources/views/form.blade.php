@@ -47,6 +47,8 @@
 
                 <label for="add_employee" class="form-label">Adresse Employee:</label>
                 <input type="text" id="add_employee" class="form-control" name="add_employee" required><br>
+                 <label for="employee_phone" class="form-label">Employee Phone:</label>
+                <input type="text" id="employee_phone" class="form-control" name="employee_phone"><br>
 
                 {{-- <label for="periode_de_paie" class="form-label">Période de Paie:</label> --}}
                 <input type="hidden" id="periode_de_paie" class="form-control" name="periode_de_paie" required><br>
