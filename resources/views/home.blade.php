@@ -18,7 +18,7 @@
                                 Gestion des Employees
                             </h5>
                             {{-- list of employees. Just the html without the data, we will the data from js with external API call --}}
-                            <ul class="list-group employees">
+                            <ul class="list-group employees-last-3">
                                 {{-- Data fetched from API --}}
                             </ul>
                             <a href="{{route('employees')}}" class="btn btn-primary m-4">Voir tous les Employees</a>

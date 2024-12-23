@@ -10,7 +10,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $wageslips = WageSlip::all();
+        //last 5 wage slips
+        $wageslips = WageSlip::orderBy('id', 'desc')->take(4)->get();
         return view('home', ['wageslips' => $wageslips]);
     }
     public function employees()

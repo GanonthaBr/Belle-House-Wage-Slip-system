@@ -138,6 +138,33 @@
             }
         }
         fetchEmployees();
+        //employees-last-3
+        async function fetchLast3Employees() {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+                // console.log(data);
+                const employees = document.querySelector(".employees-last-3");
+                employees.innerHTML = "";
+                data.slice(-4).forEach((employee) => {
+                    const li = document.createElement("li");
+                    li.className = "list-group-item d-flex justify-content-between align-items center";
+                    li.textContent = employee.first_name + " " + employee.last_name;
+                    const a = document.createElement("a");
+                    // a.href = "#";
+                    // a.className = "btn btn-primary btn-sm";
+                    // a.textContent = "Voir";
+                    // li.appendChild(a);
+                    employees.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error fetching employee data:", error);
+            }
+        }
+        fetchLast3Employees();
     </script>
 </body>
 
