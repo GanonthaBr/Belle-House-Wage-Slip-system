@@ -17,6 +17,7 @@
                             <h5 class="card-title">
                                 Gestion des Employees
                             </h5>
+                            <p>Liste des employees dans la base des donnees</p>
                             {{-- list of employees. Just the html without the data, we will the data from js with external API call --}}
                             <ul class="list-group employees-last-3">
                                 {{-- Data fetched from API --}}
