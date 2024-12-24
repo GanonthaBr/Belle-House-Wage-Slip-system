@@ -31,10 +31,7 @@ class HomeController extends Controller
     public function list()
     {
         $invoices = $this->remoteInvoiceService->getAllInvoices();
-        // cast string to array
-        $invoices = array($invoices);
 
-        print_r($invoices);
         return view('invoices.index', ['invoices' => $invoices]);
     }
 }
