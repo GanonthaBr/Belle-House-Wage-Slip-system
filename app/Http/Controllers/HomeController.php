@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\WageSlip;
 
 use Illuminate\Http\Request;
+use App\Services\RemoteInvoiceService;
+
 
 class HomeController extends Controller
 {
@@ -17,5 +19,22 @@ class HomeController extends Controller
     public function employees()
     {
         return view('employees');
+    }
+
+    protected $remoteInvoiceService;
+
+    public function __construct(RemoteInvoiceService $remoteInvoiceService)
+    {
+        $this->remoteInvoiceService = $remoteInvoiceService;
+    }
+
+    public function list()
+    {
+        $invoices = $this->remoteInvoiceService->getAllInvoices();
+        // cast string to array
+        $invoices = array($invoices);
+
+        print_r($invoices);
+        return view('invoices.index', ['invoices' => $invoices]);
     }
 }
