@@ -67,6 +67,7 @@
     <script>
         // Fetch employee data from the API
         var url = "https://bellehouse.pythonanywhere.com/api/employees/";
+        var invoice_url = "https://bellehouse.pythonanywhere.com/api/invoices/"
         // filepath: /c:/Users/DELL/Desktop/work files/BelleHouse/bulletin-salaire/public/code.js
 
         async function fetchEmployeeData() {
@@ -182,6 +183,21 @@
                 console.error("Error fetching employee data:", error);
             }
         }
+        //Fetch invoices
+        async function fetchInvoices() {
+            try {
+                const response = await fetch(invoice_url);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+                console.log(data);
+                
+            } catch (error) {
+                console.error("Error fetching employee data:", error);
+            }
+        }
+        fetchInvoices()
         fetchLast3Employees();
     </script>
     
