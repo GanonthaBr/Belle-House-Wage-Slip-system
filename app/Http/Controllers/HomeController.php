@@ -37,7 +37,11 @@ class HomeController extends Controller
     // show
     public function show($id)
     {
-        $invoice = $this->remoteInvoiceService->getInvoice($id);;
+        $invoice = $this->remoteInvoiceService->getInvoice($id);
         return view('invoices.show', ['invoice' => $invoice]);
+    }
+    public function download($id)
+    {
+        return $this->remoteInvoiceService->downloadInvoice($id);
     }
 }
