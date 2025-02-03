@@ -21,17 +21,23 @@ class HomeController extends Controller
         return view('employees');
     }
 
-    // protected $remoteInvoiceService;
+    protected $remoteInvoiceService;
 
-    // public function __construct(RemoteInvoiceService $remoteInvoiceService)
-    // {
-    //     $this->remoteInvoiceService = $remoteInvoiceService;
-    // }
+    public function __construct(RemoteInvoiceService $remoteInvoiceService)
+    {
+        $this->remoteInvoiceService = $remoteInvoiceService;
+    }
 
-    // public function list()
-    // {
-    //     $invoices = $this->remoteInvoiceService->getAllInvoices();
+    public function list()
+    {
+        $invoices = $this->remoteInvoiceService->getAllInvoices();
 
-    //     return view('invoices.index', ['invoices' => $invoices]);
-    // }
+        return view('invoices.index', ['invoices' => $invoices]);
+    }
+    // show
+    public function show($id)
+    {
+        $invoice = $this->remoteInvoiceService->getInvoice($id);;
+        return view('invoices.show', ['invoice' => $invoice]);
+    }
 }

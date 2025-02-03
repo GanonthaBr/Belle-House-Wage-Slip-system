@@ -32,6 +32,10 @@
         .navbar-custom .navbar-toggler-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
         }
+        .invoice table, th, tr,td{
+            border: #60a9ea 1px solid
+
+        }
 </style>
 
 <body>
@@ -64,10 +68,10 @@
     @yield('content')
 
     {{-- link js code code.js --}}
-    <script>
+     <script>
         // Fetch employee data from the API
-        var url = "https://bellehouse.pythonanywhere.com/api/employees/";
-        var invoice_url = "https://bellehouse.pythonanywhere.com/api/invoices/"
+        var url = "https://api.bellehouseniger.com/api/employees/";
+        var invoice_url = "https://api.bellehouseniger.com/api/invoices/"
         // filepath: /c:/Users/DELL/Desktop/work files/BelleHouse/bulletin-salaire/public/code.js
 
         async function fetchEmployeeData() {
@@ -75,10 +79,12 @@
             if (matricule.length === 0) {
                 return;
             }
-            const url = `https://bellehouse.pythonanywhere.com/api/employees/${matricule}`;
+            const url = `https://api.bellehouseniger.com/api/employees/${matricule}`;
 
             try {
-                const response = await fetch(url);
+                const response = await fetch(url,{
+                    mode: 'no-cors' 
+                });
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
@@ -130,7 +136,7 @@
             }
         });
 
-        //Fetch list of employees from the API https://bellehouse.pythonanywhere.com/api/employees and display them in the list of employees in the home page
+        //Fetch list of employees from the API https://api.bellehouseniger.com/api/employees and display them in the list of employees in the home page
         async function fetchEmployees() {
             try {
                 const response = await fetch(url);
@@ -190,13 +196,53 @@
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-                const data = await response.json();
-                console.log(data);
+                const invoices = await response.json();
+                // update rows
+                updateInvoiceTable(invoices)
                 
             } catch (error) {
                 console.error("Error fetching employee data:", error);
             }
         }
+    function updateInvoiceTable(invoices) {
+        
+        const invoiceList = document.querySelector('.invoice-list');
+        invoiceList.innerHTML = ''; // Clear existing rows
+
+        invoices.forEach(invoice => {
+        const row = document.createElement('tr');
+
+        const clientCell = document.createElement('td');
+        clientCell.textContent = invoice.client.client_name;
+        row.appendChild(clientCell);
+
+        const dateCell = document.createElement('td');
+        dateCell.textContent = invoice.date;
+        row.appendChild(dateCell);
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = invoice.topic;
+        row.appendChild(nameCell);
+
+        //buttons
+        const buttonCell = document.createElement('td');
+        const button = document.createElement('a');
+        button.href = `https://api.bellehouseniger.com/api/invoices/${invoice.id}/download_pdf/`;
+        button.className = "btn btn-primary btn-sm";
+        button.textContent = "Telecharger";
+        buttonCell.appendChild(button);
+        row.appendChild(buttonCell);
+
+        const buttonView = document.createElement('td');
+        const butt = document.createElement('a');
+        butt.href = `/invoices/${invoice.id}`;
+        butt.className = "btn btn-primary btn-sm";
+        butt.textContent = "View";
+        buttonView.appendChild(butt);
+        row.appendChild(buttonView);
+        invoiceList.appendChild(row);
+        });
+    }
         fetchInvoices()
         fetchLast3Employees();
     </script>
