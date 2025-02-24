@@ -10,11 +10,16 @@ class RemoteInvoiceService
 
     public function __construct()
     {
-        $this->baseUrl = 'https://api.bellehouseniger.com/api/';
+        $this->baseUrl = 'https://api.bellehouseniger.com/api';
     }
-    public function getAllInvoices(): string
+    public function getAllInvoices()
     {
         $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/invoices");
+        return $response->json();
+    }
+    public function getClient_byIid($client_id)
+    {
+        $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/clients/{$client_id}");
         return $response->json();
     }
     //get one Invoice
@@ -32,7 +37,7 @@ class RemoteInvoiceService
     //create invoice
     public function createInvoice($data)
     {
-        $response = Http::withOptions(['verify' => false])->post("{$this->baseUrl}/invoices", $data);
+        $response = Http::accept('application/json')->post("{$this->baseUrl}/invoices/", $data);
         return $response->json();
     }
     //update invoice
