@@ -44,6 +44,7 @@ class WageSlipController extends Controller
             // dd(Carbon::now()->startOfMonth()->format('Y_m_d_H_i_s'));
             return $pdf->download($filename);
         } catch (\Throwable $e) {
+            dd($e->getMessage());
             return redirect()->route('home')->with('error', 'Une erreur est survenue lors du telechargement');
         }
     }
@@ -94,6 +95,26 @@ class WageSlipController extends Controller
             $avance_sur_salaire = request('avance_sur_salaire') ?? 0;
             $assurance_maladie = request('assurance_maladie') ?? 0;
             $assurance_accident_de_travail = request('assurance_accident_de_travail') ?? 0;
+
+            // Set charges de Famille 
+            $charges = request('assurance_accident_de_travail');
+            if ($charges == 0) {
+                $assurance_maladie = 0;
+            } elseif ($charges == 1) {
+                $assurance_maladie = 5;
+            } elseif ($charges == 2) {
+                $assurance_maladie = 10;
+            } elseif ($charges == 3) {
+                $assurance_maladie = 12;
+            } elseif ($charges == 4) {
+                $assurance_maladie = 13;
+            } elseif ($charges == 5) {
+                $assurance_maladie = 14;
+            } elseif ($charges == 6) {
+                $assurance_maladie = 15;
+            } elseif ($charges == 7) {
+                $assurance_maladie = 30;
+            }
             //if $heures_supplementaires is less than 10, set it to 0
             if ($heures_supplementaires < 10) {
                 $heures_supplementaires = 0;
@@ -105,19 +126,19 @@ class WageSlipController extends Controller
             } elseif ($salaireDeBase <= 50000) {
                 $taxe = 2;
             } elseif ($salaireDeBase <= 100000) {
-                $taxe = 2;
+                $taxe = 6;
             } elseif ($salaireDeBase <= 150000) {
-                $taxe = 3;
+                $taxe = 13;
             } elseif ($salaireDeBase <= 300000) {
-                $taxe = 5;
+                $taxe = 25;
             } elseif ($salaireDeBase <= 400000) {
-                $taxe = 5;
+                $taxe = 30;
             } elseif ($salaireDeBase <= 700000) {
-                $taxe = 7;
+                $taxe = 32;
             } elseif ($salaireDeBase <= 1000000) {
-                $taxe = 10;
+                $taxe = 34;
             } else {
-                $taxe = 10;
+                $taxe = 35;
             }
             //create an item
             $wageslip = WageSlip::create([
@@ -141,9 +162,9 @@ class WageSlipController extends Controller
                 'taxe' => $taxe,
                 'employee_phone' => request('employee_phone'),
             ]);
-            return redirect()->route('show', ['id' => $wageslip->id]);
+            return redirect()->route('wageslip-show', ['id' => $wageslip->id]);
         } catch (\Throwable $e) {
-            // print($e);
+            dd($e);
             return redirect()->route('home')->with('error', value: $e,);
         }
     }
@@ -183,6 +204,32 @@ class WageSlipController extends Controller
                 $periodeDePaie = $dateDeDebut->format('F Y');
                 $dateDePaie = Carbon::now();
             }
+            //set default value 0 for heures_supplementaires, prime_de_salissure, prime_annuelle, avance_sur_salaire, assurance_maladie, assurance_accident_de_travail
+            $heures_supplementaires = request('heures_supplementaires') ?? 0;
+            $prime_de_salissure = request('prime_de_salissure') ?? 0;
+            $prime_annuelle = request('prime_annuelle') ?? 0;
+            $avance_sur_salaire = request('avance_sur_salaire') ?? 0;
+            $assurance_maladie = request('assurance_maladie') ?? 0;
+            $assurance_accident_de_travail = request('assurance_accident_de_travail') ?? 0;
+            // Set charges de Famille 
+            $charges = request('assurance_accident_de_travail');
+            if ($charges == 0) {
+                $assurance_maladie = 0;
+            } elseif ($charges == 1) {
+                $assurance_maladie = 5;
+            } elseif ($charges == 2) {
+                $assurance_maladie = 10;
+            } elseif ($charges == 3) {
+                $assurance_maladie = 12;
+            } elseif ($charges == 4) {
+                $assurance_maladie = 13;
+            } elseif ($charges == 5) {
+                $assurance_maladie = 14;
+            } elseif ($charges == 6) {
+                $assurance_maladie = 15;
+            } elseif ($charges == 7) {
+                $assurance_maladie = 30;
+            }
             //if $heures_supplementaires is less than 10, set it to 0
             $heures_supplementaires = request('heures_supplementaires') ?? 0;
             if ($heures_supplementaires < 10) {
@@ -195,19 +242,19 @@ class WageSlipController extends Controller
             } elseif ($salaireDeBase <= 50000) {
                 $taxe = 2;
             } elseif ($salaireDeBase <= 100000) {
-                $taxe = 2;
+                $taxe = 6;
             } elseif ($salaireDeBase <= 150000) {
-                $taxe = 3;
+                $taxe = 13;
             } elseif ($salaireDeBase <= 300000) {
-                $taxe = 5;
+                $taxe = 25;
             } elseif ($salaireDeBase <= 400000) {
-                $taxe = 5;
+                $taxe = 30;
             } elseif ($salaireDeBase <= 700000) {
-                $taxe = 7;
+                $taxe = 32;
             } elseif ($salaireDeBase <= 1000000) {
-                $taxe = 10;
+                $taxe = 34;
             } else {
-                $taxe = 10;
+                $taxe = 35;
             }
             //update an item
             $wageslip = WageSlip::findOrFail($id);
@@ -232,9 +279,9 @@ class WageSlipController extends Controller
                 'taxe' => $taxe,
                 'employee_phone' => request('employee_phone'),
             ]);
-            return redirect()->route('show', ['id' => $wageslip->id])->with('message', 'Ce bulletin a ete mis a jour avec succes!',);
+            return redirect()->route('list', ['id' => $wageslip->id])->with('message', 'Ce bulletin a ete mis a jour avec succes!',);
         } catch (\Throwable $e) {
-
+            dd($e);
             return redirect()->route('home')->with('error', 'Une erreur est survenue',);
         }
     }

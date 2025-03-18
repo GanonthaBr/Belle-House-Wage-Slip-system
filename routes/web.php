@@ -11,7 +11,7 @@ Route::get('/wageslip/create', [WageSlipController::class, 'create'])->name('wag
 Route::get('/wageslip/download-pdf/{id}', [WageSlipController::class, 'downloadPDF'])->name('wageslip.downloadPDF');
 Route::get('/create', [WageSlipController::class, 'create'])->name('create'); //show form
 Route::post('/store', [WageSlipController::class, 'store'])->name('store'); //add new
-Route::get('/wageslip/{id}', [WageSlipController::class, 'show'])->name('show'); //display
+Route::get('/wageslip/{id}', [WageSlipController::class, 'show'])->name('wageslip-show'); //display
 Route::get('/edit/{id}', [WageSlipController::class, 'edit'])->name('edit'); //edit
 Route::put('/update/{id}', [WageSlipController::class, 'update'])->name('update'); //update
 Route::delete('/delete/{id}', [WageSlipController::class, 'destroy'])->name('delete'); //delete
@@ -19,4 +19,7 @@ Route::get('/list/bulletin', [WageSlipController::class, 'list'])->name('list');
 Route::get('/employees', [HomeController::class, 'employees'])->name('employees');
 //Invoice
 Route::get('/invoices/{id}', [HomeController::class, 'show'])->name('show');
+Route::get('/create/invoice', [HomeController::class, 'create'])->name('create-invoice');
+Route::delete('/delete/invoice/{id}', [HomeController::class, 'delete'])->name('delete-invoice');
+Route::post('/store/invoice', [HomeController::class, 'store'])->name('invoices.store');
 Route::get('/invoices/{id}/download', [HomeController::class, 'download'])->name('download');

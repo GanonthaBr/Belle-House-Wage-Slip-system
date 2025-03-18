@@ -114,16 +114,20 @@
 @php
 // Arithmetic operations
 
-// EXTRA HOURS
-$rate_extra_hours = 0.05 * $wageslip->salaire_de_base;
-$extra_hours = $rate_extra_hours * $wageslip->heures_supplementaires;
+// Avantage en Nature
 
-// TOTAL
-$total = $wageslip->salaire_de_base + $extra_hours + $wageslip->prime_de_salissure + $wageslip->prime_annuelle;
+$adds_on = $wageslip->heures_supplementaires;
+// CNSS
+$cnss = 0.0525 * ($wageslip->salaire_de_base  + $wageslip->prime_annuelle);
 
-// TAX
-$tax_rate = $wageslip->taxe / 100;
-$tax = $wageslip->taxe / 100 * $total;
+// RBG (Revenues Brutes Globale)
+
+// RBGI (Revenues Brutes Gloables Imposables)
+
+// RNI (Revenues Nettes Imposables)
+
+// IUTS (TAXES)
+
 
 // NET IMPOSABLE
 $net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
@@ -212,7 +216,7 @@ $net_pay = $total - $net_imposable;
                         <td>{{$wageslip->salaire_de_base}}</td>
                     </tr>
                     <tr>
-                        <td class="rubrique">Heures supplémentaires 5%</td>
+                        <td class="rubrique">Avantages en Natures</td>
                         <td>{{$wageslip->heures_supplementaires}}</td>
                         <td> {{$rate_extra_hours}} </td>
                         <td> {{$extra_hours}} </td>
@@ -254,7 +258,7 @@ $net_pay = $total - $net_imposable;
                         <td>{{$wageslip->assurance_accident_de_travail}}</td>
                     </tr>
                     <tr>
-                        <td class="rubrique">Taxe </td>
+                        <td class="rubrique">Impôts sur les Traitements et Salaire</td>
                         <td>{{$wageslip->taxe}}%</td>
                         <td>{{$tax_rate}}</td>
                         <td>{{$tax}}</td>
