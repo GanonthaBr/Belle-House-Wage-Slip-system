@@ -115,25 +115,75 @@
 // Arithmetic operations
 
 // Avantage en Nature
-
 $adds_on = $wageslip->heures_supplementaires;
-// CNSS
-$cnss = 0.0525 * ($wageslip->salaire_de_base  + $wageslip->prime_annuelle);
+$charges = $wageslip->assurance_accident_de_travail;
+$cnss = 0.0525 * ($wageslip->salaire_de_base  + $wageslip->prime_annuelle);//CNSS
 
 // RBG (Revenues Brutes Globale)
-
+$RBG = $wageslip->salaire_de_base  + $wageslip->prime_annuelle - $cnss + $adds_on;
+$total = $wageslip->salaire_de_base  + $wageslip->prime_annuelle + $adds_on;
 // RBGI (Revenues Brutes Gloables Imposables)
-
+$abattement = 0.1 * $RBG; //10 % du RBG Abattement professionels
+$RBGI = $RBG - $abattement;
 // RNI (Revenues Nettes Imposables)
+    $RNI = $RBGI;
+$assurance_maladie = $wageslip->assurance_accident_de_travail;
+$charge_taux = 0;
+if($assurance_maladie==0){
+    $charge_taux = 0;
+}elseif($assurance_maladie==1){
+    $charge_taux = 0.05 * $RBGI;
+}elseif($assurance_maladie==2){
+    $charge_taux =  0.10 * $RBGI;
+}elseif($assurance_maladie==3){
+    $charge_taux =  0.12 * $RBGI;
+}elseif($assurance_maladie==4){
+    $charge_taux =  0.13 * $RBGI;
+}elseif($assurance_maladie==5){
+    $charge_taux= 0.14 * $RBGI;
+}elseif($assurance_maladie==6){
+    $charge_taux =  0.15 * $RBGI;
+}elseif($assurance_maladie==7){
+    $charge_taux = 0.3 * $RBGI;
+}
+$RNI = $RBGI - $charge_taux;
 
 // IUTS (TAXES)
+function calculate_ITS($RNI) {
+    if ($RNI <= 25000) {
+        return 250;
+    } elseif ($RNI <= 50000) {
+        return 250 + 0.02 * ($RNI - 25000);
+    } elseif ($RNI <= 100000) {
+        return 250 + 500 + 0.06 * ($RNI - 50000);
+    } elseif ($RNI <= 150000) {
+        return 250 + 500 + 3000 + 0.13 * ($RNI - 100000);
+    } else {
+        return 250 + 500 + 3000 + 6500 + 0.25 * ($RNI - 150000);
+    }
+}
+$tax_rate = 0;
+if($RNI<=25000){
+    $tax_rate = 0.1;
+}elseif($RNI <= 50000){
+    $tax_rate = 0.02;
+}elseif($RNI <= 100000){
+    $tax_rate = 0.06;
+}elseif($RNI <= 150000){
+    $tax_rate = 0.13;
+}else{
+    $tax_rate = 0.25;
+}
+$ITS = calculate_ITS($RNI);
+
 
 
 // NET IMPOSABLE
-$net_imposable = $wageslip->assurance_maladie + $wageslip->assurance_accident_de_travail + $tax + $wageslip->avance_sur_salaire;
+$net_imposable = $cnss + $ITS +$charge_taux + $wageslip->avance_sur_salaire + $abattement;
 
 // NET PAY
-$net_pay = $total - $net_imposable;
+$net_pay = $RNI - $ITS;
+
 
 
 @endphp
@@ -218,17 +268,17 @@ $net_pay = $total - $net_imposable;
                     <tr>
                         <td class="rubrique">Avantages en Natures</td>
                         <td>{{$wageslip->heures_supplementaires}}</td>
-                        <td> {{$rate_extra_hours}} </td>
-                        <td> {{$extra_hours}} </td>
+                        <td> - </td>
+                        <td> {{$wageslip->heures_supplementaires}}</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td class="rubrique">Prime de Salissure</td>
                         <td>{{$wageslip->prime_de_salissure}}</td>
                         <td>-</td>
                         <td>{{$wageslip->prime_de_salissure}}</td>
-                    </tr>
+                    </tr> --}}
                     <tr>
-                        <td class="rubrique">Prime Annuelle</td>
+                        <td class="rubrique">Prime</td>
                         <td>{{$wageslip->prime_annuelle}}</td>
                         <td>-</td>
                         <td>{{$wageslip->prime_annuelle}}</td>
@@ -246,22 +296,28 @@ $net_pay = $total - $net_imposable;
                         <td>{{$wageslip->avance_sur_salaire}}</td>
                     </tr>
                     <tr>
-                        <td class="rubrique">Assurance Maladie</td>
-                        <td>{{$wageslip->assurance_maladie}}</td>
-                        <td>-</td>
-                        <td>{{$wageslip->assurance_maladie}}</td>
-                    </tr>
-                    <tr>
-                        <td class="rubrique">Assurance Accident de Travail</td>
+                        <td class="rubrique">Charges de Famille</td>
                         <td>{{$wageslip->assurance_accident_de_travail}}</td>
                         <td>-</td>
-                        <td>{{$wageslip->assurance_accident_de_travail}}</td>
+                        <td>{{$charge_taux}}</td>
                     </tr>
                     <tr>
-                        <td class="rubrique">Impôts sur les Traitements et Salaire</td>
-                        <td>{{$wageslip->taxe}}%</td>
+                        <td class="rubrique">Abattement Charges Professionelles</td>
+                        <td>10 % du RBG</td>
+                        <td>-</td>
+                        <td>{{$abattement}}</td>
+                    </tr>
+                    <tr>
+                        <td class="rubrique">Contribution CNSS</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>{{$cnss}}</td>
+                    </tr>
+                    <tr>
+                        <td class="rubrique">Impôts sur les Traitements et Salaire </td>
+                        <td>{{$tax_rate * 100}}%</td>
                         <td>{{$tax_rate}}</td>
-                        <td>{{$tax}}</td>
+                        <td>{{$ITS}}</td>
                     </tr>
                     <tr class="break-point">
                         <td class="rubrique">NET IMPOSABLE</td>

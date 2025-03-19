@@ -21,22 +21,22 @@
                 <label for="salaire_de_base" class="form-label">Salaire de Base:</label>
                 <input type="number" id="salaire_de_base" class="form-control" name="salaire_de_base" required><br>
 
-                <label for="heures_supplementaires" class="form-label">Heures Supplementaires:</label>
+                <label for="heures_supplementaires" class="form-label">Avantages en Nature:</label>
                 <input type="number" id="heures_supplementaires" class="form-control" name="heures_supplementaires"><br>
 
-                <label for="prime_de_salissure" class="form-label">Prime de Salissure:</label>
-                <input type="number" id="prime_de_salissure" class="form-control" name="prime_de_salissure"><br>
+                {{-- <label for="prime_de_salissure" class="form-label">Prime de Salissure:</label> --}}
+                {{-- <input type="number" id="prime_de_salissure" class="form-control" name="prime_de_salissure" value="0"><br> --}}
 
-                <label for="prime_annuelle" class="form-label">Prime Annuelle:</label>
+                <label for="prime_annuelle" class="form-label">Primes:</label>
                 <input type="number" id="prime_annuelle" class="form-control" name="prime_annuelle"><br>
 
                 <label for="avance_sur_salaire" class="form-label">Avance sur Salaire:</label>
                 <input type="number" id="avance_sur_salaire" class="form-control" name="avance_sur_salaire"><br>
 
-                <label for="assurance_maladie" class="form-label">Assurance Maladie:</label>
-                <input type="number" id="assurance_maladie" class="form-control" name="assurance_maladie"><br>
+                {{-- <label for="assurance_maladie" class="form-label">Assurance Maladie:</label>
+                <input type="number" id="assurance_maladie" class="form-control" name="assurance_maladie"><br> --}}
 
-                <label for="assurance_accident_de_travail" class="form-label">Assurance Accident de Travail:</label>
+                <label for="assurance_accident_de_travail" class="form-label">Charges de Famille:</label>
                 <input type="number" id="assurance_accident_de_travail" class="form-control" name="assurance_accident_de_travail"><br>
 
                 <label for="nationalite" class="form-label">Nationalité:</label>
@@ -68,8 +68,8 @@
                 <label for="anciennete" class="form-label">Ancienneté:</label>
                 <input type="date" id="anciennete" class="form-control" name="anciennete" required><br>
 
-                <label for="taxe" class="form-label">Taxe:</label>
-                <input type="hidded" id="taxe" class="form-control" name="taxe"><br>
+                {{-- <label for="taxe" class="form-label">Taxe:</label> --}}
+                <input type="hidded" id="taxe" class="form-control" hidden name="taxe" value="0"><br>
 
                 <button type="submit" class="form-control">Create</button>
             </form>
