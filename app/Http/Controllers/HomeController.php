@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\RemoteInvoiceService;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class HomeController extends Controller
 {
@@ -45,6 +45,7 @@ class HomeController extends Controller
                 'echeance' => 'required',
                 'tax' => 'required',
                 'type_tax' => 'nullable',
+                "montant_avanc" => 'nullable',
                 'topic',
                 'date',
                 'payment_mode',
@@ -91,23 +92,97 @@ class HomeController extends Controller
             ];
 
             $invoices = $this->remoteInvoiceService->createInvoice($payload);
+            return redirect('/');
             // dd($invoices);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // Handle the exception
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function edit($id)
+    {
+        $invoice = $this->remoteInvoiceService->getInvoice($id);
+        // dd($invoice);
+        return view('invoices.update', compact('invoice'));
+    }
+    public function update(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'client_id' => 'required',
+                'facture_type' => 'required',
+                'facture_number' => 'nullable',
+                'echeance' => 'required',
+                'tax' => 'required',
+                'type_tax' => 'nullable',
+                'montant_avanc' => 'nullable',
+                'topic',
+                'date',
+                'name',
+                'payment_mode' => 'required',
+
+            ]);
+            $data = $request->all();
+            // dd($data);
+            // Process designations
+            $designations = [];
+            foreach ($request->designation_title as $index => $title) {
+                $designations[] = [
+                    'designation_title' => $title,
+                    'designation_details' => $request->designation_details[$index],
+                    'designation_quantity' => $request->designation_quantity[$index],
+                    'designation_unit_price' => $request->designation_unit_price[$index],
+                ];
+            }
+            $data['designations'] = $designations;
+            // dd($data);
+            // $invoice = $this->remoteInvoiceService->getInvoice($id);
+            // $data['number'] = $invoice['number'];
+            //turn response to boolean
+            if ($data['tax'] == 'OUI') {
+                $data['tax'] = true;
+            } else {
+                $data['tax'] = false;
+            }
+            $payload = [
+                'client_id' => $data['client_id'],
+                'name' => $data['facture_type'],
+                'topic' => $data['topic'],
+                'echeance' => $data['echeance'],
+                'date' => $data['date'],
+                'payment_mode' => $data['payment_mode'],
+                'tax' => $data['tax'],
+                'number' => $data['facture_number'],
+                'montant_avance' => $data['montant_avanc'],
+                'type_tax' => $data['type_tax'],
+                'designations' => $data['designations'],
+            ];
+            // dd($payload);
+            $invoice = $this->remoteInvoiceService->updateInvoice($id, $payload);
+            dd($invoice);
+        } catch (Throwable $e) {
+            return response()->json(['error' => $e->getMessage()],);
         }
     }
     public function list()
     {
         $invoices = $this->remoteInvoiceService->getAllInvoices();
-
+        // dd($invoices);
         return view('invoices.index', ['invoices' => $invoices]);
     }
     // show
     public function show($id)
     {
         $invoice = $this->remoteInvoiceService->getInvoice($id);
+        // dd($invoice);
         return view('invoices.show', ['invoice' => $invoice]);
+    }
+    public function delete($id)
+    {
+        $this->remoteInvoiceService->deleteInvoice($id);
+        // dd($response);
+
+        return redirect('/')->with(['message' => "Deleted successfully!"]);
     }
     public function download($id)
     {

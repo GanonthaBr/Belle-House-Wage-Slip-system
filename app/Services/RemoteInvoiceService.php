@@ -45,7 +45,8 @@ class RemoteInvoiceService
     //update invoice
     public function updateInvoice($id, array $data): array
     {
-        $response = Http::withOptions(['verify' => false])->put("{$this->baseUrl}/invoices/{$id}", $data);
+        $response = Http::accept('application/json')->put("{$this->baseUrl}/invoices/{$id}/", $data);
+        dd($response);
         return $response->json();
     }
     //delete invoice

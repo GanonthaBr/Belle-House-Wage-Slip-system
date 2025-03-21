@@ -8,7 +8,16 @@
         @method('PUT')
         <div class="form-group">
             <label for="client_id">Client Id</label>
-            <input type="number" class="form-control" id="client_id" name="client_id" value="{{$invoice['id']}}" required>
+            <input type="number" class="form-control" id="client_id" name="client_id" value="{{$invoice['client']['id']}}" required>
+        </div>    
+          
+        <div class="form-group">
+            <label for="facture_number">Numero de Facture</label>
+            <input type="number" class="form-control" id="facture_number" name="facture_number" value="{{$invoice['number']}}" required>
+        </div>    
+        <div class="form-group">
+            <label for="dat">Date de creation</label>
+            <input type="date" class="form-control" id="date" name="date" value="{{$invoice['date']}}" required>
         </div>    
         <div class="form-group">
             <label for="topic">Object</label>
