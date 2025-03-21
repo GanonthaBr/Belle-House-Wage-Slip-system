@@ -31,9 +31,10 @@ class RemoteInvoiceService
     //Download Invoice
     public function downloadInvoice($id)
     {
-        $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/invoices/{$id}/download_pdf");
-        return $response->download();
-        // return $response;
+        $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/invoices/{$id}/download_pdf", ['stream' => true]);
+        return response()->streamDownload(function () use ($response) {
+            echo $response->body();
+        }, "invoice_{$id}.pdf");
     }
     //create invoice
     public function createInvoice($data)
@@ -50,7 +51,7 @@ class RemoteInvoiceService
     //delete invoice
     public function deleteInvoice($id): array
     {
-        $response = Http::withOptions(['verify' => false])->delete("{$this->baseUrl}/invoices/{$id}");
-        return $response->json();
+        Http::delete("{$this->baseUrl}/invoices/{$id}/");
+        return [];
     }
 }
