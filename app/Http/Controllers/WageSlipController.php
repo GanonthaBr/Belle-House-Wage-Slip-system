@@ -168,6 +168,15 @@ class WageSlipController extends Controller
             return redirect()->route('home')->with('error', value: $e,);
         }
     }
+    //edit
+    public function edit($id)
+    {
+        $wageslip = WageSlip::find($id);
+        if (!$wageslip) {
+            abort(404);
+        }
+        return view('edit', compact('wageslip'));
+    }
     public function update(Request $request, $id)
     {
         try {
@@ -285,15 +294,7 @@ class WageSlipController extends Controller
             return redirect()->route('home')->with('error', 'Une erreur est survenue',);
         }
     }
-    //edit
-    public function edit($id)
-    {
-        $wageslip = WageSlip::find($id);
-        if (!$wageslip) {
-            abort(404);
-        }
-        return view('edit', compact('wageslip'));
-    }
+
     public function show($id)
     {
         $wageslip = WageSlip::find($id);
