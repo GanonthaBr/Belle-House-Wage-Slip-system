@@ -36,7 +36,7 @@
         <fieldset>
             <div class="form-check">
                 <label for="tax" class="form-label"> <b>Section Taxe</b> </label> <br>
-                <input type="radio" id="tax_oui" name="tax" class="form-check-input" value="oui" required>
+                <input type="radio" id="tax_oui" name="tax" class="form-check-input" value="OUI" required>
                 <label class="form-check-label" for="tax_oui">OUI</label>
             </div>
             <div class="form-check">
@@ -44,6 +44,7 @@
                 <label class="form-check-label" for="tax_non">NON</label>
             </div>
         </fieldset>
+        
         <fieldset id="typeTaxFieldset">
             <label for="type_tax" class="form-label"> <b>Type de Taxe</b> </label> <br>
             <div class="form-check">
@@ -68,6 +69,17 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="payment_mode" id="par_banque" value="PAR CHEQUE" checked>
                 <label class="form-check-label" for="par_banque"> PAR CHEQUE</label>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-check">
+                <label for="stamp" class="form-label"> <b>Ajouter de Cachet ?</b> </label> <br>
+                <input type="radio" id="stamp_oui" name="stamp" class="form-check-input" value="OUI" required>
+                <label class="form-check-label" for="stamp_oui">OUI</label>
+            </div>
+             <div class="form-check">
+                <input class="form-check-input" type="radio" name="stamp" id="stamp_non" value="NON" checked>
+                <label class="form-check-label" for="stamp_non">NON</label>
             </div>
         </fieldset>
         <fieldset>

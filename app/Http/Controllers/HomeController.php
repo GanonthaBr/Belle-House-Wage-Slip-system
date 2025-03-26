@@ -48,6 +48,7 @@ class HomeController extends Controller
                 "montant_avanc" => 'nullable',
                 'topic',
                 'date',
+                'stamp',
                 'payment_mode',
                 'payment_mode' => 'required',
             ]);
@@ -73,10 +74,16 @@ class HomeController extends Controller
             $data['number'] = $lastInvoice ? $lastInvoice['number'] + 1 : 1;
             // dd($data['number']);
             //turn response to boolean
+            // dd($data['tax']);
             if ($data['tax'] == 'OUI') {
                 $data['tax'] = true;
             } else {
                 $data['tax'] = false;
+            }
+            if ($data['stamp'] == 'OUI') {
+                $data['stamp'] = true;
+            } else {
+                $data['stamp'] = false;
             }
             $payload = [
                 'client_id' => $data['client_id'],
@@ -89,6 +96,7 @@ class HomeController extends Controller
                 'number' => $data['number'],
                 'type_tax' => $data['type_tax'],
                 'designations' => $data['designations'],
+                'stamp' => $data['stamp'],
             ];
 
             $invoices = $this->remoteInvoiceService->createInvoice($payload);

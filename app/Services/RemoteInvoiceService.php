@@ -32,6 +32,7 @@ class RemoteInvoiceService
     public function downloadInvoice($id)
     {
         $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/invoices/{$id}/download_pdf", ['stream' => true]);
+        // dd($response);
         return response()->streamDownload(function () use ($response) {
             echo $response->body();
         }, "invoice_{$id}.pdf");

@@ -270,6 +270,7 @@
         color: #000000
     }
 </style>
+
 <body>
     <!-- nav bar -->
      <nav class="navbar navbar-expand-lg navbar-custom">
@@ -290,7 +291,10 @@
                         <a class="nav-link" href="{{ route('create-invoice') }}">Nouvelle Facture</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('show',$invoice['id'])}}">Telecharger en PDF</a>
+                        <a class="nav-link" href="{{route('download',$invoice['id'])}}">Telecharger en PDF</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('invoice-edit',$invoice['id'])}}">Modifier</a>
                     </li>
                     <li class="nav-item">
                         <form action="{{ route('delete-invoice', $invoice['id']) }}" method="POST" style="display: inline-block;">
@@ -369,14 +373,14 @@
                                         </td>
                                         <td>
                                             <div class="designation">
-                                                <h2>Invoice Proforma</h2>
+                                                <h2>{{$invoice['name']}}</h2>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="col invoice-details">
-                                                <h1 class="invoice-id" style="font-size:12px">Numéro de facture : BH/12/234</h1>
-                                                <div class="date">Date: <b>12-12-2025</b> </div>
-                                                <div class="date">Délai de validité: <b>12-12-2025</b> </div>
+                                                <h1 class="invoice-id" style="font-size:12px">Numéro de facture : BH/2025/{{$invoice['number']}}</h1>
+                                                <div class="date">Date: <b>{{$invoice['echeance']}}</b> </div>
+                                                <div class="date">Délai de validité: <b>{{$invoice['echeance']}}</b> </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -385,7 +389,7 @@
                         </div>
                         <div class="row subject">
                             <div class="col-12">
-                                <p> <b style="text-decoration: underline;">Object:</b> Topic </p>
+                                <p> <b style="text-decoration: underline;">Object:</b>{{$invoice['topic']}}  </p>
                             </div>
                         </div>
                         <table style="width: 100%; table-layout: fixed; ">
@@ -399,77 +403,63 @@
                                 </tr>
                             </thead>
                             <tbody>                         
-                                <tr>
-                                    <td class="no">1</td>
+                                
+                                @foreach ($invoice['designations'] as $item)
+                                     <tr class="listings">
+                                    <td class="no item_number">1</td>
                                     <td class="text-left" style="min-width: 500px;border-right: 1px solid #fff">
-                                        <h4>Title</h4>
-                                        <p>Details</p>
+                                        <h4>{{$item['designation_title']}}</h4>
+                                        <p>{{$item['designation_details']}}</p>
                                     </td>
-                                    <td class="qty">12</td>
-                                    <td class="unit">10000</td>
-                                    <td class="total"> 5045495</td>
+                                    <td class="qty">{{$item['designation_quantity']}}</td>
+                                    <td class="unit">{{$item['designation_unit_price']}}</td>
+                                    <td class="total">{{ $item['designation_price'] }} </td>
                                 </tr>
-                                <tr>
-                                    <td class="no">1</td>
-                                    <td class="text-left" style="min-width: 500px;border-right: 1px solid #fff">
-                                        <h4>Title</h4>
-                                        <p>Details</p>
-                                    </td>
-                                    <td class="qty">12</td>
-                                    <td class="unit">10000</td>
-                                    <td class="total"> 5045495</td>
-                                </tr>
-                                <tr>
-                                    <td class="no">1</td>
-                                    <td class="text-left" style="min-width: 500px;border-right: 1px solid #fff">
-                                        <h4>Title</h4>
-                                        <p>Details</p>
-                                    </td>
-                                    <td class="qty">12</td>
-                                    <td class="unit">10000</td>
-                                    <td class="total"> 5045495</td>
-                                </tr>
-                                <tr>
-                                    <td class="no">1</td>
-                                    <td class="text-left" style="min-width: 500px;border-right: 1px solid #fff">
-                                        <h4>Title</h4>
-                                        <p>Details</p>
-                                    </td>
-                                    <td class="qty">12</td>
-                                    <td class="unit">10000</td>
-                                    <td class="total"> 5045495</td>
-                                </tr>
-                                <tr>
-                                    <td class="no">1</td>
-                                    <td class="text-left" style="min-width: 500px;border-right: 1px solid #fff">
-                                        <h4>Title</h4>
-                                        <p>Details</p>
-                                    </td>
-                                    <td class="qty">12</td>
-                                    <td class="unit">10000</td>
-                                    <td class="total"> 5045495</td>
-                                </tr>
+                                @endforeach
+                               
+                            
+                              
+                                   
+                               
+                                
                             </tbody>
                             <tfoot style="font-size: 10px;">
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2">Montant Total HT</td>
-                                    <td> Before Tax <b> FCFA</b> </td>
+                                    <td> {{ $invoice['total'] }} <b> FCFA</b> </td>
                                 </tr>
+                                 @if ($invoice['tax'])
+                                
+                                    <tr>
+                                    <td colspan="2"></td>
+                                     @if ($invoice['type_tax'] == 'ISB')
+                                    
+                                    <td colspan="2"> Tax {{$invoice['type_tax']}} 2%</td>
+                                    @else
+                                    <td colspan="2"> Tax {{$invoice['type_tax']}} 16%</td>
+                                    
+                                    @endif
+                                    <td> <b> {{$invoice['total_amount'] -  $invoice['total'] }} FCFA</b> </td>
+                                </tr>
+                                @else
                                 <tr>
                                     <td colspan="2"></td>
-                                    <td colspan="2"> Tax rate</td>
-                                    <td> <b> Tax value FCFA</b> </td>
+                                    <td colspan="2"> Tax</td>
+                                    <td> <b> 0 FCFA</b> </td>
                                 </tr>
+                                @endif
+                                    
+                               
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2">Montant Total TTC</td>
-                                    <td> After tax FCFA</b> </td>
+                                    <td> {{$invoice['total_amount']}} FCFA</b> </td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2">Net à payer</td>
-                                    <td> <b> Rest to pay FCFA</b> </td>
+                                    <td> <b> {{$invoice['total_amount']}} FCFA</b> </td>
                                 </tr>
                             </tfoot>
                         </table>
