@@ -5,29 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\WageSlip;
 use Illuminate\Http\Request;
 use App\Services\RemoteInvoiceService;
+use App\Services\RemoteClientService;
 
 use Carbon\Carbon;
 use Throwable;
 
 class HomeController extends Controller
 {
+    protected $remoteInvoiceService;
+    protected $remoteClientService;
+
+    public function __construct(RemoteInvoiceService $remoteInvoiceService, RemoteClientService $remoteClientService)
+    {
+        $this->remoteClientService = $remoteClientService;
+        $this->remoteInvoiceService = $remoteInvoiceService;
+    }
     public function index()
     {
         //last 5 wage slips
+        $clients = $this->remoteClientService->getAllClient();
+        // dd($clients);
         $wageslips = WageSlip::orderBy('id', 'desc')->take(4)->get();
-        return view('home', ['wageslips' => $wageslips]);
+        return view('home', ['wageslips' => $wageslips, 'clients' => $clients]);
     }
     public function employees()
     {
         return view('employees');
     }
 
-    protected $remoteInvoiceService;
 
-    public function __construct(RemoteInvoiceService $remoteInvoiceService)
-    {
-        $this->remoteInvoiceService = $remoteInvoiceService;
-    }
+
 
     //create
     public function create()

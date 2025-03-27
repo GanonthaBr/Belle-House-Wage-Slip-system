@@ -3,11 +3,15 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="text-center">Dashboard Belle House</h1>
+            <h1 class="text-center">Tableau de Bord Belle House</h1>
             {{-- show session message --}}
             @if (session('error'))    
                 <div class="alert alert-danger">
                     {{ session('error') }}
+                </div>
+            @elseif (session('message')) 
+            <div class="alert alert-danger">
+                    {{ session('message') }}
                 </div>
             @endif        
             <div class="row">
@@ -15,12 +19,29 @@
                     <div class="card half-screen">
                         <div class="card-body">
                             <h5 class="card-title">
-                                Gestion des Employees
+                                Gestion des Clients
                             </h5>
-                            <p>Liste des employees dans la base des donnees</p>
+                            <p>Liste des Client dans la base des donnees</p>
                             {{-- list of employees. Just the html without the data, we will the data from js with external API call --}}
-                            <ul class="list-group employees-last-3">
-                                {{-- Data fetched from API --}}
+                            <ul class="list-group">
+                                <table>
+                                    <thead>
+                                        <th style="width:30%" >ID du Client</th>
+                                        <th style="width:70%" >Nom du client</th>
+                                    </thead>
+                                    <tbody>
+                                        {{-- Data fetched from API --}}
+                                        @foreach ($clients as $client)
+                                   
+                                        <tr>
+                                            <td>{{$client['id']}}</td>
+                                            <td>{{$client['client_name']}}</td>
+                                        </tr>
+                                         @endforeach
+                                    </tbody>
+                                </table>
+                                
+                               
                             </ul>
                             <a href="{{route('employees')}}" class="btn btn-primary m-4">Voir tous les Employees</a>
                         </div>
@@ -59,15 +80,15 @@
                             <table style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Client</th>
+                                        <th>Clients</th>
                                         <th>Date</th>
-                                        <th>Invoice Name</th>
+                                        <th>Type de Facture</th>
                                         <th>Actions</th>
                                     </tr>
 
                                 </thead>
                                 <tbody class="invoice-list">
-                                    <tr>
+                                    {{-- <tr>
                                         <td>Client 1</td>
                                         <td>2020-01-01</td>
                                         <td>Invoice 1</td>
@@ -76,7 +97,7 @@
                                         <td>Client 2</td>
                                         <td>2022-01-01</td>
                                         <td>Invoice 2</td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>                            
                         </div>

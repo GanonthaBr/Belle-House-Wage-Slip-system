@@ -52,13 +52,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('create') }}">Creer Bulletin de salaire</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('list') }}">Liste Bulletins de salaire</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('create-invoice') }}">Creer Facture</a>
                     </li>
                 </ul>
             </div>
@@ -72,7 +75,8 @@
         // Fetch employee data from the API
         var url = "https://api.bellehouseniger.com/api/employees/";
         var invoice_url = "https://api.bellehouseniger.com/api/invoices/"
-        // filepath: /c:/Users/DELL/Desktop/work files/BelleHouse/bulletin-salaire/public/code.js
+        // var client_url = "https://api.bellehouseniger.com/api/clients/"
+
 
         async function fetchEmployeeData() {
             const matricule = document.getElementById("matricule").value;
@@ -162,7 +166,7 @@
                 console.error("Error fetching employee data:", error);
             }
         }
-        fetchEmployees();
+        // fetchEmployees();
         //employees-last-3
         async function fetchLast3Employees() {
             try {
@@ -221,7 +225,7 @@
         row.appendChild(dateCell);
 
         const nameCell = document.createElement('td');
-        nameCell.textContent = invoice.topic;
+        nameCell.textContent = invoice.name;
         row.appendChild(nameCell);
 
         //buttons
@@ -237,10 +241,46 @@
         const butt = document.createElement('a');
         butt.href = `/invoices/${invoice.id}`;
         butt.className = "btn btn-primary btn-sm";
-        butt.textContent = "View";
+        butt.textContent = "Afficher";
         buttonView.appendChild(butt);
         row.appendChild(buttonView);
         invoiceList.appendChild(row);
+
+
+         // Delete button
+        const buttonDelete = document.createElement('td');
+        const deleteButton = document.createElement('button');
+        deleteButton.className = "btn btn-danger btn-sm";
+        deleteButton.textContent = "Supprimer";
+        deleteButton.addEventListener('click', async () => {
+            if (confirm('Voulez-vous vraiment supprimer cette facture?')) {
+                try {
+                    const response = await fetch(`https://api.bellehouseniger.com/api/invoices/${invoice.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    if (response.ok) {
+                        alert('Facture supprimée avec succès');
+                        //fetch the invoices again
+                        fetchInvoices()
+                    } else {
+                        alert("On n'a pas pu supprimer la facture");
+                    }
+                } catch (error) {
+                    console.error('Error deleting invoice:', error);
+                    alert('Une erreur est arrivée lors de la suppression');
+                }
+            }
+        });
+        buttonDelete.appendChild(deleteButton);
+        row.appendChild(buttonDelete);
+
+        invoiceList.appendChild(row);
+        
+
         });
     }
         fetchInvoices()

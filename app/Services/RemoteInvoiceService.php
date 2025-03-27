@@ -17,11 +17,7 @@ class RemoteInvoiceService
         $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/invoices");
         return $response->json();
     }
-    public function getClient_byIid($client_id)
-    {
-        $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/clients/{$client_id}");
-        return $response->json();
-    }
+
     //get one Invoice
     public function getInvoice($id)
     {
