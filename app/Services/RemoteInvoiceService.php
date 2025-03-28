@@ -43,7 +43,7 @@ class RemoteInvoiceService
     public function updateInvoice($id, array $data): array
     {
         $response = Http::accept('application/json')->put("{$this->baseUrl}/invoices/{$id}/", $data);
-        dd($response);
+        // dd($response);
         return $response->json();
     }
     //delete invoice

@@ -270,7 +270,9 @@
         color: #000000
     }
 </style>
-
+@php
+    // dd($invoice);
+@endphp
 <body>
     <!-- nav bar -->
      <nav class="navbar navbar-expand-lg navbar-custom">
@@ -361,13 +363,13 @@
                                         <td>
                                             <div class="col invoice-to">
                                                 <div class="text-gray-light">Délivré à:</div>
-                                                <h3 class="to">client_name</h3>
-                                                <div class="address">Quartier,Niamey-Niger</div>
+                                                <h3 class="to">{{$invoice['client']['client_name']}}</h3>
+                                                <div class="address">{{$invoice['client']['client_quartier']}},{{$invoice['client']['client_city']}}-{{$invoice['client']['client_country']}}</div>
                                                 <div class="address">
-                                                    Tel: 898989383
+                                                    Tel: {{$invoice['client']['client_phone']}}
                                                 </div>
                                                 <div class="email">
-                                                    <a href="mailto:'client@gmail.com"><span class="__cf_email__" data-cfemail="cca6a3a4a28ca9b4ada1bca0a9e2afa3a1">client@gmail.com</span></a>
+                                                    <a href="mailto:'client@gmail.com"><span class="__cf_email__" data-cfemail="cca6a3a4a28ca9b4ada1bca0a9e2afa3a1">{{$invoice['client']['client_mail']}}</span></a>
                                                 </div>
                                             </div>
                                         </td>
@@ -456,10 +458,18 @@
                                     <td colspan="2">Montant Total TTC</td>
                                     <td> {{$invoice['total_amount']}} FCFA</b> </td>
                                 </tr>
+                                @if ($invoice['name'] == 'Facture')
+                                    <tr>
+                                    <td colspan="2"></td>
+                                    <td colspan="2">Avance</td>
+                                    <td> {{$invoice['montant_avance'] }}FCFA</b> </td>
+                                </tr>
+                                @endif
+                                
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2">Net à payer</td>
-                                    <td> <b> {{$invoice['total_amount']}} FCFA</b> </td>
+                                    <td> <b> {{$invoice['total_amount'] - $invoice['montant_avance'] }} FCFA</b> </td>
                                 </tr>
                             </tfoot>
                         </table>

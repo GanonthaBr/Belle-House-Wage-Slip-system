@@ -22,9 +22,9 @@ class HomeController extends Controller
     }
     public function index()
     {
-        //last 5 wage slips
         $clients = $this->remoteClientService->getAllClient();
         // dd($clients);
+        //last 5 wage slip
         $wageslips = WageSlip::orderBy('id', 'desc')->take(4)->get();
         return view('home', ['wageslips' => $wageslips, 'clients' => $clients]);
     }
@@ -32,9 +32,43 @@ class HomeController extends Controller
     {
         return view('employees');
     }
+    public function clients()
+    {
+        $clients = $this->remoteClientService->getAllClient();
+        return view('clients', ['clients' => $clients]);
+    }
 
+    public function create_client()
+    {
+        return view('create_client');
+    }
+    public function store_client(Request $request)
+    {
+        try {
+            $request->validate([
+                'client_name' => 'nullable',
+                'client_mail' => 'nullable',
+                'client_quartier' => 'nullable',
+                'client_phone' => 'nullable',
+                'client_country' => 'nullable',
+                'client_city' => 'nullable',
 
-
+            ]);
+            $data = $request->all();
+            $payload = [
+                'client_name' => $data['client_name'],
+                'client_mail' => $data['client_mail'],
+                'client_quartier' => $data['client_quartier'],
+                'client_phone' => $data['client_phone'],
+                'client_country' => $data['client_country'],
+                'client_city' => $data['client_city'],
+            ];
+            $response = $this->remoteClientService->createClient($payload);
+            return redirect('/');
+        } catch (Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 
     //create
     public function create()
@@ -134,6 +168,7 @@ class HomeController extends Controller
                 'topic',
                 'date',
                 'name',
+                'stamp',
                 'payment_mode' => 'required',
 
             ]);
@@ -151,13 +186,18 @@ class HomeController extends Controller
             }
             $data['designations'] = $designations;
             // dd($data);
-            // $invoice = $this->remoteInvoiceService->getInvoice($id);
-            // $data['number'] = $invoice['number'];
+
             //turn response to boolean
             if ($data['tax'] == 'OUI') {
                 $data['tax'] = true;
             } else {
                 $data['tax'] = false;
+            }
+            // Stamp
+            if ($data['stamp'] == 'OUI') {
+                $data['stamp'] = true;
+            } else {
+                $data['stamp'] = false;
             }
             $payload = [
                 'client_id' => $data['client_id'],
@@ -171,10 +211,12 @@ class HomeController extends Controller
                 'montant_avance' => $data['montant_avanc'],
                 'type_tax' => $data['type_tax'],
                 'designations' => $data['designations'],
+                'stamp' => $data['stamp'],
             ];
             // dd($payload);
             $invoice = $this->remoteInvoiceService->updateInvoice($id, $payload);
-            dd($invoice);
+            // dd($invoice);
+            return view('invoices.show', ['invoice' => $invoice]);
         } catch (Throwable $e) {
             return response()->json(['error' => $e->getMessage()],);
         }

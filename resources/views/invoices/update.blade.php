@@ -1,7 +1,9 @@
 @extends('layouts.layout')
 @section('content')
 <div class="container">
-    
+    {{-- @php
+    dd($invoice);
+@endphp --}}
     <h1>Modification de la Facture BH/{{$invoice['number']}}</h1>
     <form action="{{ route('invoice.update',$invoice['id']) }}" method="post">
         @csrf
@@ -46,11 +48,11 @@
         <fieldset>
             <div class="form-check">
                 <label for="tax" class="form-label"> <b>Section Taxe</b> </label> <br>
-                <input type="radio" id="tax_oui" name="tax" class="form-check-input" value="oui" {{ $invoice['tax'] == 'oui' ? 'checked' : '' }} required>
+                <input type="radio" id="tax_oui" name="tax" class="form-check-input" value="OUI" {{ $invoice['tax'] ? 'checked' : '' }} required>
                 <label class="form-check-label" for="tax_oui">OUI</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="tax" id="tax_non" value="non" {{ $invoice['tax'] == 'non' ? 'checked' : '' }} >
+                <input class="form-check-input" type="radio" name="tax" id="tax_non" value="NON" {{ $invoice['tax'] ? '' : 'checked' }} >
                 <label class="form-check-label" for="tax_non">NON</label>
             </div>
         </fieldset>
@@ -78,6 +80,17 @@
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="payment_mode" id="par_banque" value="PAR CHEQUE" {{ $invoice['payment_mode'] == 'PAR CHEQUE' ? 'checked' : '' }}>
                 <label class="form-check-label" for="par_banque"> PAR CHEQUE</label>
+            </div>
+        </fieldset>
+         <fieldset>
+            <div class="form-check">
+                <label for="stamp" class="form-label"> <b>Ajouter de Cachet ?</b> </label> <br>
+                <input type="radio" id="stamp_oui" name="stamp" class="form-check-input" value="OUI" {{$invoice['stamp']? 'checked':''}} required>
+                <label class="form-check-label" for="stamp_oui">OUI</label>
+            </div>
+             <div class="form-check">
+                <input class="form-check-input" type="radio" name="stamp" id="stamp_non" value="NON" {{$invoice['stamp']? '':'checked'}}>
+                <label class="form-check-label" for="stamp_non">NON</label>
             </div>
         </fieldset>
         <fieldset>
