@@ -42,6 +42,12 @@ class HomeController extends Controller
     {
         return view('create_client');
     }
+    public function delete_client($id)
+    {
+        // dd('HERE');
+        $this->remoteClientService->deleteClient($id);
+        return redirect()->route('clients')->with('success', 'Client deleted successfully');
+    }
     public function store_client(Request $request)
     {
         try {

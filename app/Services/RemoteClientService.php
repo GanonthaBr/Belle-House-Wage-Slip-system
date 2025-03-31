@@ -21,4 +21,14 @@ class RemoteClientService
         $response = Http::withOptions(['verify' => false])->get("{$this->baseUrl}/clients/{$client_id}");
         return $response->json();
     }
+    public function createClient($data)
+    {
+        $response = Http::accept('application/json')->post("{$this->baseUrl}/clients/", $data);
+        return $response->json();
+    }
+    public function deleteClient($id)
+    {
+        Http::delete("{$this->baseUrl}/clients/{$id}/");
+        return [];
+    }
 }

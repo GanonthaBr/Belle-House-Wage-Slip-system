@@ -7,6 +7,10 @@
                     <div class="card-title">
                         <h1 class="text-center">Tous les Clients</h1>
                     </div>
+                    {{-- display session message --}}
+                    @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
                     <div class="card-body">
                         <ul class="list-group">
                            <table>
@@ -23,7 +27,11 @@
                                             <td>{{$client['id']}}</td>
                                             <td>{{$client['client_name']}}</td>
                                             <td>
-                                                <button class="btn btn-danger" onclick="deleteClient($client['id'])">Supprimer</button>
+                                                <form action="{{route('delete-client',$client['id'])}}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                </form>
                                             </td>
                                         </tr>
                                          @endforeach
