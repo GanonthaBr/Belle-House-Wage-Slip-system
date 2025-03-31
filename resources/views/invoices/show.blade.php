@@ -442,7 +442,7 @@
                                     <td colspan="2"> Tax {{$invoice['type_tax']}} 16%</td>
                                     
                                     @endif
-                                    <td> <b> {{$invoice['total_amount'] -  $invoice['total'] }} FCFA</b> </td>
+                                    <td> <b> {{$invoice['tax_amount']  }} FCFA</b> </td>
                                 </tr>
                                 @else
                                 <tr>
@@ -469,7 +469,7 @@
                                 <tr>
                                     <td colspan="2"></td>
                                     <td colspan="2">Net à payer</td>
-                                    <td> <b> {{$invoice['total_amount'] - $invoice['montant_avance'] }} FCFA</b> </td>
+                                    <td> <b> {{$invoice['net_to_pay']  }} FCFA</b> </td>
                                 </tr>
                             </tfoot>
                         </table>
