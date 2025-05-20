@@ -17,11 +17,11 @@
 
     /* style for burger menu */
     .navbar-custom {
-            background-color: #ffffffa7;
+            background-color: #a8c5e0;
         }
         .navbar-custom .navbar-brand,
         .navbar-custom .nav-link {
-            color:#60a9ea;
+            color:#fff;
         }
         .navbar-custom .nav-link:hover {
             color: #73bfeb;
@@ -50,7 +50,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Accueil</a>
                     </li>
@@ -63,6 +63,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('create-invoice') }}">Creer Facture</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('employees') }}">Liste des employees</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -71,7 +74,21 @@
     @yield('content')
 
     {{-- link js code code.js --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
      <script>
+         document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentUrl = window.location.href;
+
+        navLinks.forEach(link => {
+            if (link.href === currentUrl) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    });
         // Fetch employee data from the API
         var url = "https://api.bellehouseniger.com/api/employees/";
         var invoice_url = "https://api.bellehouseniger.com/api/invoices/"
@@ -86,42 +103,45 @@
             const url = `https://api.bellehouseniger.com/api/employees/${matricule}`;
 
             try {
-                const response = await fetch(url,{
-                    mode: 'no-cors' 
-                });
+                const response = await fetch(url);
+                // console.log(response);
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
                 const data = await response.json();
-                // console.log(data);
-                document.getElementById("salaire_de_base").value =
-                    data.base_salary || "";
-                document.getElementById("heures_supplementaires").value =
-                    data.heures_supplementaires || "";
-                document.getElementById("prime_de_salissure").value =
-                    data.prime_de_salissure || "";
-                document.getElementById("prime_annuelle").value =
-                    data.prime_annuelle || "";
-                document.getElementById("avance_sur_salaire").value =
-                    data.avance_sur_salaire || "";
-                document.getElementById("assurance_maladie").value =
-                    data.assurance_maladie || "";
-                document.getElementById("assurance_accident_de_travail").value =
-                    data.assurance_accident_de_travail || "";
-                document.getElementById("nationalite").value =
-                    data.employee_nationality || "";
-                document.getElementById("nom_employee").value = data.first_name + ' ' + data.last_name || "";
-                document.getElementById("add_employee").value = data.employee_address || "";
-                document.getElementById("periode_de_paie").value =
-                    data.periode_de_paie || "";
-                document.getElementById("date_de_paie").value = data.date_de_paie || "";
-                document.getElementById("date_de_debut").value =
-                    data.date_de_debut || "";
-                document.getElementById("date_de_fin").value = data.date_de_fin || "";
-                document.getElementById("emploi").value = data.job_title || "";
-                document.getElementById("anciennete").value = data.hire_date || "";
-                document.getElementById("taxe").value = data.taxe || "";
-                document.getElementById("employee_phone").value = data.phone_number || "";
+                console.log(data);
+               
+                const fields = {
+                    salaire_de_base: data.base_salary,
+                    heures_supplementaires: data.heures_supplementaires,
+                    prime_de_salissure: data.prime_de_salissure,
+                    prime_annuelle: data.prime_annuelle,
+                    avance_sur_salaire: data.avance_sur_salaire,
+                    assurance_maladie: data.assurance_maladie,
+                    assurance_accident_de_travail: data.assurance_accident_de_travail,
+                    nationalite: data.employee_nationality,
+                    nom_employee: `${data.first_name || ''} ${data.last_name || ''}`,
+                    add_employee: data.employee_address,
+                    periode_de_paie: data.periode_de_paie,
+                    date_de_paie: data.date_de_paie,
+                    date_de_debut: data.date_de_debut,
+                    date_de_fin: data.date_de_fin,
+                    emploi: data.job_title,
+                    anciennete: data.hire_date,
+                    taxe: data.taxe,
+                    employee_phone: data.phone_number,
+                };
+
+                for (const [id, value] of Object.entries(fields)) {
+                    console.log("LET SEE");
+                    
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.value = value || "";
+                    } else {
+                        console.warn(`Element with id "${id}" not found.`);
+                    }
+                }
             } catch (error) {
                 document.getElementById('wageslip-form').reset();
                 //reset the form except the matricule field

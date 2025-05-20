@@ -275,39 +275,39 @@
 @endphp
 <body>
     <!-- nav bar -->
-     <nav class="navbar navbar-expand-lg navbar-custom">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="{{ asset('public/images/logo.png') }}" alt="logo" height="50">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('create-invoice') }}">Nouvelle Facture</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('download',$invoice['id'])}}">Telecharger en PDF</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('invoice-edit',$invoice['id'])}}">Modifier</a>
-                    </li>
-                    <li class="nav-item">
-                        <form action="{{ route('delete-invoice', $invoice['id']) }}" method="POST" style="display: inline-block;">
-                            @method('DELETE')
-                            @csrf
-                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-custom" style="background-color: #61a1d6;">
+       <div class="container-fluid">
+          <a class="navbar-brand" href="{{ route('home') }}">
+             <img src="{{ asset('public/images/logo.png') }}" alt="logo" height="50">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ route('home') }}" style="color: #fff;">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('create-invoice') }}" style="color: #fff;">Nouvelle Facture</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('download',$invoice['id'])}}" style="color: #fff;">Telecharger en PDF</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('invoice-edit',$invoice['id'])}}" style="color: #fff;">Modifier</a>
+                </li>
+                <li class="nav-item">
+                    <form action="{{ route('delete-invoice', $invoice['id']) }}" method="POST" style="display: inline-block;">
+                       @method('DELETE')
+                       @csrf
+                       <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                    </form>
+                </li>
+             </ul>
+          </div>
+       </div>
     </nav>
     <div class="invoice">
         <div class="header-div">
@@ -489,5 +489,8 @@
         <span> Compte Ecobank: <b class="black-footer">160940732001</b> Compte Orabank: <b class="black-footer">76495401901 </b>Compte BIA: <b class="black-footer">61001260006</b>  Compte BOA: <b class="black-footer">004404430009</b> </span>
         <span><b class="black-footer"> RCCM-NE-NIM-01-2017-A10-02845- NIF : 43391/P.</b></span>
     </footer>
+    {{-- link js code code.js --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

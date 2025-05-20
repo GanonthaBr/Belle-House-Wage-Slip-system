@@ -6,6 +6,7 @@ use App\Models\WageSlip;
 use Illuminate\Http\Request;
 use App\Services\RemoteInvoiceService;
 use App\Services\RemoteClientService;
+use App\Services\RemoteEmployeeService;
 
 use Carbon\Carbon;
 use Throwable;
@@ -14,11 +15,13 @@ class HomeController extends Controller
 {
     protected $remoteInvoiceService;
     protected $remoteClientService;
+    protected $remoteEmployeeService;
 
-    public function __construct(RemoteInvoiceService $remoteInvoiceService, RemoteClientService $remoteClientService)
+    public function __construct(RemoteInvoiceService $remoteInvoiceService, RemoteClientService $remoteClientService, RemoteEmployeeService $remoteEmployeeService)
     {
         $this->remoteClientService = $remoteClientService;
         $this->remoteInvoiceService = $remoteInvoiceService;
+        $this->remoteEmployeeService = $remoteEmployeeService;
     }
     public function index()
     {
@@ -30,13 +33,75 @@ class HomeController extends Controller
     }
     public function employees()
     {
-        return view('employees');
+        $employees = $this->remoteEmployeeService->getAllEmployees();
+        // dd($employees);
+        return view('employees', ['employees' => $employees]);
+    }
+    public function employees_create()
+    {
+        return view('employees_create');
+    }
+
+
+    // "employee_id" => "15"
+    // "first_name" => "Abdel"
+    // "last_name" => "Mahamane"
+    // "email" => "eldykiam.dev@gmail.com"
+    // "phone_number" => "+22789853603"
+    // "hire_date" => "2024-12-12"
+    // "employee_address" => "Goudel"
+    // "job_title" => "Architect"
+    // "base_salary" => "42000.00"
+    // "employee_nationality" => "CAR"
+
+    public function employees_store(Request $request)
+    {
+        try {
+            $request->validate([
+                'employee_id' => 'required',
+                'first_name' => 'nullable',
+                'email' => 'nullable',
+                'last_name' => 'nullable',
+                'job_title' => 'nullable',
+                'hire_date' => 'nullable',
+                'employee_address' => 'nullable',
+                'base_salary' => 'nullable',
+                'employee_nationality' => 'nullable',
+                'phone_number' => 'nullable',
+
+            ]);
+            $data = $request->all();
+
+            $payload = [
+                "employee_id" => $data['employee_id'],
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "email" => $data['email'],
+                "phone_number" => $data['phone_number'],
+                "hire_date" => $data['hire_date'],
+                "employee_address" => $data['employee_address'],
+                "job_title" => $data['job_title'],
+                "base_salary" => $data['base_salary'],
+                "employee_nationality" => $data['employee_nationality'],
+            ];
+            $response = $this->remoteEmployeeService->createEmployee($payload);
+            // dd($response);
+            return redirect()->route('employees')->with('success', 'Ajouter avec succes');
+        } catch (Throwable $e) {
+            return redirect()->back()->with('error', 'Erreur lors de l\'ajout');
+        }
+    }
+    public function employees_delete($id)
+    {
+        $res = $this->remoteEmployeeService->deleteEmployee($id);
+        return redirect()->route('employees')->with('success', 'Supprimer avec succes');
     }
     public function clients()
     {
         $clients = $this->remoteClientService->getAllClient();
         return view('clients', ['clients' => $clients]);
     }
+
 
     public function create_client()
     {

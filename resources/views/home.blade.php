@@ -62,7 +62,7 @@
                                 @foreach ($wageslips as $wageslip)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         {{$wageslip->nom_employee}}
-                                        <a href="{{route('show',$wageslip->id)}}" class="btn btn-primary btn-sm">Voir</a>
+                                        <a href="{{route('wageslip-show',$wageslip->id)}}" class="btn btn-primary btn-sm">Voir</a>
                                     </li>
                                 @endforeach
                             </ul>
