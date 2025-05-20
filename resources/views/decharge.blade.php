@@ -25,7 +25,7 @@
     <div class="receipt" style="margin: 1rem; width: 100%; margin-left:10rem">
         <div class="toolbar hidden-print">
             <div class="text-end">
-                <a type="button" href="{{route('home')}}" class="btn btn-dark">
+                <a type="button" href="{{route('decharge')}}" class="btn btn-dark">
                     <i class="fa fa-print"></i> Retour
                 </a>
                 <a type="button" href="{{route('dechargepdf',$decharge->id)}}" class="btn btn-danger">
